@@ -502,29 +502,7 @@ function copyPrompt() {
   const box = document.getElementById('promptOutput');
   const text = box.textContent;
   if (!text || text.includes('Fill in the sections')) return;
-
-  function showToast() {
-    const t = document.getElementById('toast');
-    t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 2200);
-  }
-
-  if (navigator.clipboard && window.isSecureContext) {
-    navigator.clipboard.writeText(text).then(showToast).catch(() => fallbackCopy(text, showToast));
-  } else {
-    fallbackCopy(text, showToast);
-  }
-}
-
-function fallbackCopy(text, cb) {
-  const ta = document.createElement('textarea');
-  ta.value = text;
-  ta.style.cssText = 'position:fixed;opacity:0;top:0;left:0';
-  document.body.appendChild(ta);
-  ta.focus();
-  ta.select();
-  try { document.execCommand('copy'); cb(); } catch (e) {}
-  document.body.removeChild(ta);
+  forgeCopy(text, () => forgeShowToast(2200));
 }
  
 function resetAll() {
