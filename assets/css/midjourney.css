@@ -16,6 +16,7 @@
 }
 .preset-btn:hover { border-color: var(--lime-dim); color: var(--text-primary); }
 .preset-btn.active { background: var(--lime); border-color: var(--lime); color: #111; }
+.preset-btn .btn-icon { margin-right: 5px; }
 
 .param-chips { display:flex; flex-wrap:wrap; gap:5px; margin-bottom:7px; min-height:0; }
 .param-chip {
