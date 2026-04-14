@@ -72,13 +72,13 @@
 <div class="filter-bar">
   <div class="filter-label">Quick Presets <span class="filter-count">7</span></div>
   <div class="preset-row">
-    <button class="preset-btn" onclick="applyPreset('realistic',this)">📷 Realistic Photo</button>
-    <button class="preset-btn" onclick="applyPreset('headshot',this)">🧑 Profile / Headshot</button>
-    <button class="preset-btn" onclick="applyPreset('fashion',this)">👗 Fashion Shoot</button>
-    <button class="preset-btn" onclick="applyPreset('pixar',this)">✨ Pixar 3D</button>
-    <button class="preset-btn" onclick="applyPreset('cartoon',this)">🎨 2D Cartoon</button>
-    <button class="preset-btn" onclick="applyPreset('anime',this)">⛩ Anime</button>
-    <button class="preset-btn" onclick="applyPreset('concept',this)">🌌 Concept Art</button>
+    <button class="preset-btn" onclick="applyPreset('realistic',this)"><span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></span>Realistic Photo</button>
+    <button class="preset-btn" onclick="applyPreset('headshot',this)"><span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>Profile / Headshot</button>
+    <button class="preset-btn" onclick="applyPreset('fashion',this)"><span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3l5 4 5-4"/><path d="M5 8l7 13 7-13-3-1-4 3-4-3-3 1z"/></svg></span>Fashion Shoot</button>
+    <button class="preset-btn" onclick="applyPreset('pixar',this)"><span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 3.9L18 9l-4.1 2.1L12 15l-1.9-3.9L6 9l4.1-2.1z"/><path d="M19 13l.9 1.8L22 16l-2.1 1.2L19 19l-.9-1.8L16 16l2.1-1.2z"/></svg></span>Pixar 3D</button>
+    <button class="preset-btn" onclick="applyPreset('cartoon',this)"><span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 0 0-9 9c0 3.2 1.7 6 4.2 7.6 1.1.7 2.4-.3 2.1-1.6-.2-.8.1-1.7.9-2.1h1.3c2.4 0 4.3-1.9 4.3-4.3V11c0-4.4-3.6-8-8-8z"/><circle cx="17" cy="7" r="2"/></svg></span>2D Cartoon</button>
+    <button class="preset-btn" onclick="applyPreset('anime',this)"><span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h18"/><path d="M5 11h14"/><path d="M7 21h2l1-8h4l1 8h2"/></svg></span>Anime</button>
+    <button class="preset-btn" onclick="applyPreset('concept',this)"><span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.5 5.5L20 10l-5.5 2.5L12 18l-2.5-5.5L4 10l5.5-2.5z"/><circle cx="19" cy="19" r="1"/><circle cx="5" cy="18" r="1"/></svg></span>Concept Art</button>
   </div>
   <div class="filter-spacer"></div>
   <div class="search-box">
@@ -126,7 +126,7 @@
         <button class="btn btn-ghost" onclick="resetAll()">↺ Reset</button>
         <div class="spacer"></div>
         <button class="btn btn-dark" onclick="updatePrompt()">⚡ Build</button>
-        <button class="btn btn-lime" onclick="copyPrompt()">📋 Copy Prompt</button>
+        <button class="btn btn-lime" onclick="copyPrompt()"><span class="btn-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></span>Copy Prompt</button>
       </div>
     </div>
   </div>

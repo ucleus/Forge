@@ -309,6 +309,20 @@ body { background: var(--bg); font-family: var(--font); color: var(--text-primar
 .btn-ghost { background: var(--bg); color: var(--text-secondary); border: 1px solid var(--border); }
 .btn-ghost:hover { background: var(--border); color: var(--text-primary); }
 .btn:active { transform: scale(0.97); }
+.btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  margin-right: 6px;
+}
+.btn-icon svg {
+  width: 100%;
+  height: 100%;
+  stroke: currentColor;
+}
+
  
 /* TOAST */
 .toast {
