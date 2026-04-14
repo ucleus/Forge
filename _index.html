@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mockup Forge — Prompt Builder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Syne:wght@700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:          #e8eaf0;
+  --surface:     #ffffff;
+  --dark:        #1c1f2e;
+  --dark-2:      #262a3d;
+  --dark-3:      #2f3347;
+  --lime:        #cef53c;
+  --lime-dim:    #b8e030;
+  --lime-soft:   rgba(206,245,60,0.15);
+  --text-primary:   #111827;
+  --text-secondary: #6b7280;
+  --text-muted:     #9ca3af;
+  --text-light:     rgba(255,255,255,0.85);
+  --text-light-dim: rgba(255,255,255,0.45);
+  --border:      #e5e7eb;
+  --border-dark: rgba(255,255,255,0.08);
+  --radius-sm:   6px;
+  --radius-md:   12px;
+  --radius-lg:   18px;
+  --radius-xl:   22px;
+  --shadow-sm:   0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md:   0 4px 16px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.05);
+  --shadow-lg:   0 12px 40px rgba(0,0,0,0.14);
+  --font:        'DM Sans', sans-serif;
+  --font-display:'Syne', sans-serif;
+  --font-mono:   'DM Mono', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 14px; }
+body { background: var(--bg); font-family: var(--font); color: var(--text-primary); min-height: 100vh; overflow-x: hidden; }
+
+/* TOP NAV */
+.topnav {
+  background: var(--surface); border-bottom: 1px solid var(--border);
+  padding: 0 20px; height: 52px;
+  display: flex; align-items: center; gap: 16px;
+  box-shadow: var(--shadow-sm); position: sticky; top: 0; z-index: 100;
+}
+.nav-brand {
+  font-family: var(--font-display); font-size: 15px; font-weight: 800;
+  color: var(--text-primary); display: flex; align-items: center; gap: 8px; flex-shrink: 0;
+}
+.brand-dot {
+  width: 24px; height: 24px; background: var(--lime); border-radius: 7px;
+  display: flex; align-items: center; justify-content: center; font-size: 12px;
+}
+.nav-tabs {
+  display: flex; align-items: center; gap: 2px;
+  flex: 1; overflow-x: auto; scrollbar-width: none;
+}
+.nav-tabs::-webkit-scrollbar { display: none; }
+.nav-tab {
+  padding: 5px 13px; border-radius: 100px; font-size: 12.5px; font-weight: 500;
+  cursor: pointer; white-space: nowrap; color: var(--text-secondary);
+  transition: all 0.2s; border: none; background: none; font-family: var(--font);
+}
+.nav-tab:hover { background: var(--bg); color: var(--text-primary); }
+.nav-tab.active { background: var(--lime); color: #111; font-weight: 700; }
+.nav-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.nav-icon-btn {
+  width: 30px; height: 30px; border-radius: var(--radius-sm);
+  border: 1px solid var(--border); background: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text-secondary); font-size: 13px; transition: background 0.15s;
+}
+.nav-icon-btn:hover { background: var(--bg); }
+.btn-create {
+  padding: 6px 13px; background: var(--dark); color: white;
+  border: none; border-radius: var(--radius-md); font-family: var(--font);
+  font-size: 12px; font-weight: 600; cursor: pointer;
+  display: flex; align-items: center; gap: 5px; transition: opacity 0.2s;
+}
+.btn-create:hover { opacity: 0.82; }
+
+/* PAGE HEADER */
+.page-header {
+  padding: 18px 20px 10px;
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;
+}
+.page-title { font-family: var(--font-display); font-size: 26px; font-weight: 800; letter-spacing: -0.02em; }
+.progress-dots { display: flex; gap: 5px; align-items: center; }
+.p-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--border); transition: background 0.3s; }
+.p-dot.done { background: var(--lime); }
+.p-dot.partial { background: var(--lime-dim); opacity: 0.5; }
+.prog-label { font-size: 11px; color: var(--text-muted); margin-left: 6px; }
+
+/* STAT CARDS */
+.stats-row {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 10px; padding: 0 20px 14px;
+}
+@media (max-width: 860px) { .stats-row { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 480px) { .stats-row { grid-template-columns: 1fr 1fr; } }
+.stat-card {
+  background: var(--surface); border-radius: var(--radius-lg);
+  padding: 14px 16px; box-shadow: var(--shadow-sm); transition: box-shadow 0.2s;
+}
+.stat-card:hover { box-shadow: var(--shadow-md); }
+.stat-card.accent { background: var(--dark); }
+.stat-label { font-size: 10px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 5px; }
+.stat-card.accent .stat-label { color: var(--text-light-dim); }
+.stat-value { font-family: var(--font-display); font-size: 20px; font-weight: 700; color: var(--text-primary); letter-spacing: -0.02em; }
+.stat-card.accent .stat-value { color: white; }
+.stat-sub { font-size: 10.5px; color: var(--text-muted); margin-top: 2px; }
+.stat-card.accent .stat-sub { color: var(--text-light-dim); }
+.stat-progress { margin-top: 8px; height: 3px; background: var(--border); border-radius: 2px; overflow: hidden; }
+.stat-progress-fill { height: 100%; background: var(--lime); border-radius: 2px; transition: width 0.4s ease; }
+.stat-lime-badge {
+  display: inline-flex; align-items: center; background: var(--lime);
+  color: #111; padding: 2px 9px; border-radius: 100px;
+  font-size: 11px; font-weight: 700; margin-top: 6px;
+}
+
+/* FILTER BAR */
+.filter-bar {
+  padding: 0 20px 10px;
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+}
+.filter-label { font-size: 12px; color: var(--text-secondary); font-weight: 500; display: flex; align-items: center; gap: 6px; }
+.filter-count {
+  background: var(--dark); color: white; width: 17px; height: 17px;
+  border-radius: 50%; font-size: 9px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+}
+.filter-select {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 5px 26px 5px 9px; font-family: var(--font); font-size: 12px; color: var(--text-primary);
+  cursor: pointer; outline: none; appearance: none; -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%236b7280' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 7px center;
+  box-shadow: var(--shadow-sm); transition: border-color 0.2s;
+}
+.filter-select:focus { border-color: var(--lime-dim); }
+.filter-spacer { flex: 1; }
+.search-box {
+  display: flex; align-items: center; gap: 6px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 5px 9px; box-shadow: var(--shadow-sm);
+}
+.search-box input {
+  border: none; outline: none; font-family: var(--font);
+  font-size: 12px; color: var(--text-primary); background: none; width: 130px;
+}
+.search-box input::placeholder { color: var(--text-muted); }
+
+/* MAIN SPLIT */
+.main-split {
+  display: grid; grid-template-columns: 300px 1fr;
+  gap: 10px; padding: 0 20px 20px;
+  min-height: calc(100vh - 195px);
+}
+@media (max-width: 780px) {
+  .main-split { grid-template-columns: 1fr; padding: 0 12px 20px; }
+  .stats-row { padding: 0 12px 12px; }
+  .filter-bar { padding: 0 12px 10px; }
+  .page-header { padding: 14px 12px 8px; }
+  .topnav { padding: 0 12px; }
+}
+
+/* LEFT PANEL */
+.left-panel {
+  background: var(--dark); border-radius: var(--radius-xl);
+  overflow: hidden; box-shadow: var(--shadow-lg);
+  display: flex; flex-direction: column;
+}
+.panel-tabs {
+  display: flex; align-items: center; padding: 12px 12px 0; gap: 4px;
+}
+.panel-tab {
+  padding: 5px 11px; border-radius: 100px; font-size: 12px; font-weight: 500;
+  cursor: pointer; color: var(--text-light-dim); border: none; background: none;
+  transition: all 0.2s; font-family: var(--font);
+}
+.panel-tab.active { background: var(--lime); color: #111; font-weight: 700; }
+.panel-tab-count {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 16px; height: 16px; background: rgba(255,255,255,0.12);
+  border-radius: 50%; font-size: 9px; margin-left: 3px;
+}
+.panel-tab.active .panel-tab-count { background: rgba(0,0,0,0.2); }
+.section-list { flex: 1; overflow-y: auto; padding: 8px; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.08) transparent; }
+.section-list::-webkit-scrollbar { width: 3px; }
+.section-list::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
+.section-item {
+  display: flex; align-items: center; padding: 10px 11px;
+  border-radius: var(--radius-md); cursor: pointer; margin-bottom: 2px;
+  transition: background 0.15s; gap: 9px;
+}
+.section-item:hover { background: rgba(255,255,255,0.05); }
+.section-item.active { background: rgba(206,245,60,0.10); }
+.section-avatar {
+  width: 30px; height: 30px; border-radius: 9px;
+  background: rgba(255,255,255,0.08);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; flex-shrink: 0;
+}
+.section-item.active .section-avatar { background: var(--lime); }
+.section-info { flex: 1; min-width: 0; }
+.section-name { font-size: 12.5px; font-weight: 600; color: white; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.section-item.active .section-name { color: var(--lime); }
+.section-desc { font-size: 10.5px; color: var(--text-light-dim); margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.section-badge {
+  font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 100px;
+  background: rgba(255,255,255,0.08); color: var(--text-light-dim); flex-shrink: 0;
+}
+.section-item.active .section-badge { background: var(--lime); color: #111; }
+.section-item.done .section-badge { background: rgba(206,245,60,0.15); color: var(--lime); }
+
+/* RIGHT PANEL */
+.right-panel {
+  background: var(--surface); border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-md); overflow: hidden;
+  display: flex; flex-direction: column;
+}
+.detail-header {
+  padding: 16px 22px 14px; border-bottom: 1px solid var(--border);
+  display: flex; align-items: flex-start; justify-content: space-between;
+}
+.detail-ref { font-family: var(--font-mono); font-size: 10px; color: var(--text-muted); margin-bottom: 3px; }
+.detail-title { font-family: var(--font-display); font-size: 19px; font-weight: 800; letter-spacing: -0.02em; display: inline; }
+.detail-status {
+  display: inline-flex; align-items: center; padding: 2px 9px; border-radius: 100px;
+  font-size: 10.5px; font-weight: 700; background: var(--dark); color: white;
+  margin-left: 9px; vertical-align: middle;
+}
+.detail-status.done { background: var(--lime-soft); color: var(--lime-dim); }
+.detail-actions { display: flex; gap: 6px; flex-shrink: 0; }
+.icon-btn {
+  width: 30px; height: 30px; border-radius: var(--radius-sm); border: 1px solid var(--border);
+  background: none; cursor: pointer; display: flex; align-items: center; justify-content: center;
+  font-size: 13px; color: var(--text-secondary); transition: background 0.15s;
+}
+.icon-btn:hover { background: var(--bg); }
+
+/* FORM BODY */
+.detail-body {
+  flex: 1; overflow-y: auto; padding: 18px 22px;
+  scrollbar-width: thin; scrollbar-color: var(--border) transparent;
+}
+.detail-body::-webkit-scrollbar { width: 3px; }
+.detail-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+.field-section { margin-bottom: 20px; }
+.field-section-title {
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 9px;
+  display: flex; align-items: center; gap: 8px;
+}
+.field-section-title::after { content:''; flex:1; height:1px; background:var(--border); }
+.fields-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(175px, 1fr)); gap: 9px; }
+.field-group { display: flex; flex-direction: column; gap: 4px; }
+.field-label { font-size: 10.5px; font-weight: 600; color: var(--text-secondary); }
+.field-select, .field-textarea {
+  background: var(--bg); border: 1.5px solid transparent;
+  border-radius: var(--radius-sm); padding: 7px 28px 7px 9px;
+  font-family: var(--font); font-size: 12.5px; color: var(--text-primary);
+  outline: none; width: 100%; appearance: none; -webkit-appearance: none;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%236b7280' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 7px center;
+  transition: border-color 0.2s, background 0.2s;
+}
+.field-select option { background: white; }
+.field-select:focus, .field-textarea:focus { border-color: var(--lime-dim); background-color: rgba(206,245,60,0.05); }
+.field-select.has-value { border-color: var(--lime-dim); font-weight: 500; }
+.field-textarea { resize: vertical; min-height: 70px; padding: 8px 10px; background-image: none !important; line-height: 1.5; }
+
+/* PLACEMENT */
+.placement-wrap { display: grid; grid-template-columns: repeat(auto-fill, minmax(125px, 1fr)); gap: 5px; }
+.placement-chip {
+  padding: 6px 9px; border-radius: var(--radius-sm); border: 1.5px solid var(--border);
+  background: var(--bg); font-size: 11px; color: var(--text-secondary);
+  cursor: pointer; text-align: center; transition: all 0.15s; user-select: none; font-weight: 500;
+}
+.placement-chip:hover { border-color: var(--lime-dim); color: var(--text-primary); }
+.placement-chip.active { background: var(--lime); border-color: var(--lime-dim); color: #111; font-weight: 700; }
+
+/* MULTI CHIPS */
+.chip-wrap { display: flex; flex-wrap: wrap; gap: 5px; }
+.m-chip {
+  padding: 5px 11px; border-radius: 100px; border: 1.5px solid var(--border);
+  background: var(--bg); font-size: 11.5px; color: var(--text-secondary);
+  cursor: pointer; user-select: none; transition: all 0.15s; font-weight: 500;
+}
+.m-chip:hover { border-color: var(--lime-dim); color: var(--text-primary); }
+.m-chip.active { background: var(--dark); border-color: var(--dark); color: white; }
+
+/* PROMPT BAR */
+.prompt-bar { border-top: 1px solid var(--border); padding: 13px 22px; background: var(--surface); }
+.prompt-output {
+  background: var(--bg); border-radius: var(--radius-md); padding: 11px 13px;
+  font-family: var(--font-mono); font-size: 11px; line-height: 1.65;
+  color: var(--text-secondary); min-height: 60px; max-height: 110px;
+  overflow-y: auto; margin-bottom: 9px; border: 1.5px solid var(--border);
+  transition: border-color 0.25s; word-break: break-word;
+}
+.prompt-output.has-content { border-color: var(--lime-dim); color: var(--text-primary); }
+.prompt-placeholder { color: var(--text-muted); font-style: italic; }
+.prompt-actions { display: flex; gap: 7px; align-items: center; }
+.prompt-actions .spacer { flex: 1; }
+.btn {
+  padding: 7px 16px; border-radius: var(--radius-md); border: none; cursor: pointer;
+  font-family: var(--font); font-size: 12.5px; font-weight: 700;
+  display: flex; align-items: center; gap: 5px; transition: all 0.15s;
+}
+.btn-lime { background: var(--lime); color: #111; box-shadow: 0 2px 8px rgba(206,245,60,0.25); }
+.btn-lime:hover { background: var(--lime-dim); transform: translateY(-1px); }
+.btn-dark { background: var(--dark); color: white; }
+.btn-dark:hover { opacity: 0.82; }
+.btn-ghost { background: var(--bg); color: var(--text-secondary); border: 1px solid var(--border); }
+.btn-ghost:hover { background: var(--border); color: var(--text-primary); }
+.btn:active { transform: scale(0.97); }
+
+/* TOAST */
+.toast {
+  position: fixed; bottom: 28px; left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  background: var(--dark); color: white;
+  padding: 8px 20px; border-radius: 100px;
+  font-size: 12.5px; font-weight: 600;
+  opacity: 0; pointer-events: none; transition: all 0.25s;
+  z-index: 1000; box-shadow: var(--shadow-lg);
+  display: flex; align-items: center; gap: 7px;
+}
+.toast .t-lime { color: var(--lime); }
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* RESPONSIVE EXTRAS */
+@media (max-width: 480px) {
+  .stats-row { grid-template-columns: 1fr 1fr; }
+  .search-box { display: none; }
+  .page-title { font-size: 22px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── TOP NAV ── -->
+<nav class="topnav">
+  <div class="nav-brand">
+    <div class="brand-dot">✦</div>
+    FORGE
+  </div>
+  <div class="nav-tabs">
+    <button class="nav-tab">Templates</button>
+    <button class="nav-tab active">Builder</button>
+    <button class="nav-tab">History</button>
+    <button class="nav-tab">Collections</button>
+    <button class="nav-tab">Export</button>
+  </div>
+  <div class="nav-actions">
+    <button class="nav-icon-btn" title="Grid">⊞</button>
+    <button class="nav-icon-btn" title="Settings">⚙</button>
+    <button class="btn-create">+ New Prompt</button>
+  </div>
+</nav>
+
+<!-- ── PAGE HEADER ── -->
+<div class="page-header">
+  <h1 class="page-title">Mockup Builder</h1>
+  <div style="display:flex;align-items:center;gap:8px">
+    <div class="progress-dots" id="progressDots"></div>
+    <span class="prog-label" id="progressLabel">0 / 5 sections</span>
+  </div>
+</div>
+
+<!-- ── STAT CARDS ── -->
+<div class="stats-row">
+  <div class="stat-card">
+    <div class="stat-label">Garment</div>
+    <div class="stat-value" id="stat-garment">—</div>
+    <div class="stat-sub">Type selected</div>
+    <div class="stat-progress"><div class="stat-progress-fill" id="prog-garment" style="width:0%"></div></div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">Model</div>
+    <div class="stat-value" id="stat-model">—</div>
+    <div class="stat-sub">Attributes set</div>
+    <div class="stat-progress"><div class="stat-progress-fill" id="prog-model" style="width:0%"></div></div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">Styling</div>
+    <div class="stat-value" id="stat-styling">—</div>
+    <div class="stat-sub">Items chosen</div>
+    <div class="stat-progress"><div class="stat-progress-fill" id="prog-styling" style="width:0%"></div></div>
+  </div>
+  <div class="stat-card accent">
+    <div class="stat-label">Prompt Status</div>
+    <div class="stat-value" id="stat-words">0 words</div>
+    <div class="stat-sub">Click Copy to use</div>
+    <div class="stat-lime-badge" id="stat-badge">Draft</div>
+  </div>
+</div>
+
+<!-- ── FILTER BAR ── -->
+<div class="filter-bar">
+  <div class="filter-label">
+    Active sections
+    <span class="filter-count">5</span>
+  </div>
+  <select class="filter-select" id="filterGarmentType" onchange="syncFilter('garmentType', this.value)">
+    <option value="">All Garments</option>
+  </select>
+  <select class="filter-select" id="filterStyleDir" onchange="syncFilter('styleDir', this.value)">
+    <option value="">All Styles</option>
+  </select>
+  <div class="filter-spacer"></div>
+  <div class="search-box">
+    <span style="color:var(--text-muted);font-size:14px">⌕</span>
+    <input type="text" placeholder="Search options..." id="searchInput" oninput="handleSearch(this.value)">
+  </div>
+</div>
+
+<!-- ── MAIN SPLIT ── -->
+<div class="main-split">
+
+  <!-- LEFT: Section List -->
+  <div class="left-panel">
+    <div class="panel-tabs">
+      <button class="panel-tab active">All <span class="panel-tab-count">5</span></button>
+      <button class="panel-tab">Done <span class="panel-tab-count" id="doneCount">0</span></button>
+    </div>
+    <div class="section-list" id="sectionList"></div>
+  </div>
+
+  <!-- RIGHT: Detail + Form -->
+  <div class="right-panel">
+    <div class="detail-header">
+      <div>
+        <div class="detail-ref" id="detailRef">SECTION — 01</div>
+        <div>
+          <span class="detail-title" id="detailTitle">Garment</span>
+          <span class="detail-status" id="detailStatus">Incomplete</span>
+        </div>
+      </div>
+      <div class="detail-actions">
+        <button class="icon-btn" onclick="prevSection()" title="Previous">←</button>
+        <button class="icon-btn" onclick="nextSection()" title="Next">→</button>
+      </div>
+    </div>
+
+    <div class="detail-body" id="detailBody"></div>
+
+    <div class="prompt-bar">
+      <div class="prompt-output" id="promptOutput">
+        <span class="prompt-placeholder">Fill in the sections — your prompt builds here in real time…</span>
+      </div>
+      <div class="prompt-actions">
+        <button class="btn btn-ghost" onclick="resetAll()">↺ Reset</button>
+        <div class="spacer"></div>
+        <button class="btn btn-dark" onclick="buildPrompt()">⚡ Build</button>
+        <button class="btn btn-lime" onclick="copyPrompt()">📋 Copy Prompt</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"><span class="t-lime">✓</span> Copied to clipboard!</div>
+
+<!-- ══════════════════════════════════════════════ -->
+<script>
+// ═══════════════════ SVG ICONS ═══════════════════
+const ICONS = {
+  garment: `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.38 3.46L16 2a4 4 0 01-8 0L3.62 3.46a2 2 0 00-1.34 2.23l.58 3.57a1 1 0 00.99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 002-2V10h2.15a1 1 0 00.99-.84l.58-3.57a2 2 0 00-1.34-2.23z"/></svg>`,
+  model:   `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`,
+  styling: `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h18M3 12h18M3 17h12"/><circle cx="19" cy="17" r="2"/></svg>`,
+  creative:`<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>`,
+  notes:   `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>`
+};
+
+// ═══════════════════ JSON DATA STORE ═══════════════════
+// To add options: find the section + field, push a new string to its "options" array.
+const DATA = {
+  garment: {
+    label: "Garment", iconKey: "garment", ref: "SECTION — 01", desc: "Type, color, fit, print",
+    fields: [
+      { id: "garmentType", label: "Garment Type", type: "select", options: [
+        "T-Shirt (Crew Neck)","T-Shirt (V-Neck)","Hoodie (Pullover)","Hoodie (Zip-Up)",
+        "Long Sleeve Tee","Tank Top","Sweatshirt (Crewneck)","Cropped Tee",
+        "Cropped Hoodie","Overshirt","Streetwear Tee"
+      ]},
+      { id: "garmentColor", label: "Garment Color", type: "select", options: [
+        "Black","White","Gray","Navy","Olive","Brown","Sand / Beige","Cream",
+        "Red","Royal Blue","Yellow","Green","Purple",
+        "Vintage Black (Washed)","Faded Gray (Washed)","Acid Wash",
+        "Baby Blue (Pastel)","Blush Pink (Pastel)","Mint (Pastel)",
+        "Lavender (Pastel)","Two-Tone / Color Block"
+      ]},
+      { id: "garmentFit", label: "Fit / Style", type: "select", options: [
+        "Slim Fit","Regular Fit","Oversized / Boxy","Cropped","Tall Fit",
+        "Relaxed Fit","Heavyweight","Vintage Wash / Distressed",
+        "Streetwear Oversized Drop-Shoulder"
+      ]},
+      { id: "printStyle", label: "Print Style / Finish", type: "select", options: [
+        "Screen Print","DTG (Direct-to-Garment)","Puff Print (Raised)","Embroidery",
+        "Vinyl / Heat Transfer","Distressed / Cracked Print","Washed / Faded Print",
+        "Tonal (Same Color Subtle)","Reflective","Metallic","Glow-in-the-Dark"
+      ]},
+      { id: "designSize", label: "Design Size", type: "select", options: [
+        "Micro (Subtle Branding)","Small (Logo Size)","Medium (Balanced Graphic)",
+        "Large (Dominant)","Oversized (Edge-to-Edge)"
+      ]}
+    ],
+    extra: "placement",
+    placements: [
+      "Front Center","Small Left Chest","Small Right Chest","Full Front Oversized",
+      "Upper Back Center","Small Upper Back","Large Back Center","Full Back Oversized",
+      "Bottom Front Left","Bottom Front Right","Left Sleeve","Right Sleeve",
+      "Both Sleeves","Vertical Sleeve Text","Hoodie Pocket Area","Hood Print",
+      "Front + Back Combo","Sleeve + Chest Combo"
+    ]
+  },
+  model: {
+    label: "Model", iconKey: "model", ref: "SECTION — 02", desc: "Age, body, features",
+    fields: [
+      { id: "modelAge", label: "Age Range", type: "select", options: [
+        "Teen (16–19)","Young Adult (20–30)","Adult (30–45)","Mature (45+)"
+      ]},
+      { id: "modelGender", label: "Gender", type: "select", options: [
+        "Male","Female","Non-Binary / Androgynous"
+      ]},
+      { id: "modelRace", label: "Race / Ethnicity", type: "select", options: [
+        "Black / African / Afro-Caribbean","White / Caucasian","Hispanic / Latino",
+        "East Asian","Southeast Asian","South Asian","Middle Eastern","Mixed Race"
+      ]},
+      { id: "modelBody", label: "Body Type", type: "select", options: [
+        "Slim","Athletic","Muscular","Average","Stocky","Plus-Size","Curvy","Lean Streetwear Build"
+      ]},
+      { id: "modelHeight", label: "Height", type: "select", options: [
+        "Short (5'3\"–5'6\")","Average (5'7\"–5'10\")","Tall (5'11\"–6'3\")","Very Tall (6'4\"+)"
+      ]},
+      { id: "modelSkin", label: "Skin Tone", type: "select", options: [
+        "Light","Fair","Medium","Olive","Brown","Dark"
+      ]},
+      { id: "modelHair", label: "Hair Style", type: "select", options: [
+        "Short Fade","Bald / Shaved","Curly","Afro","Braids / Cornrows","Dreadlocks",
+        "Straight Long","Wavy Medium","Buzz Cut","Slick Back","Middle Part"
+      ]},
+      { id: "modelFacial", label: "Facial Hair", type: "select", options: [
+        "Clean-Shaven","Stubble","Goatee","Full Beard","Mustache"
+      ]}
+    ]
+  },
+  styling: {
+    label: "Styling", iconKey: "styling", ref: "SECTION — 03", desc: "Outfit, shoes, accessories",
+    fields: [
+      { id: "bottomWear", label: "Bottom Wear", type: "select", options: [
+        "Skinny Jeans (Ripped)","Skinny Jeans (Clean)","Relaxed Jeans","Baggy Jeans",
+        "Cargo Pants","Joggers","Sweatpants","Athletic Shorts","Denim Shorts",
+        "Cargo Shorts","Board Shorts","Chinos","Trousers"
+      ]},
+      { id: "footwear", label: "Footwear", type: "select", options: [
+        "Sneakers (Low-Top)","Sneakers (High-Top)","Running Shoes","Slides",
+        "Sandals","Boots","Loafers","Designer Sneakers","Skate Shoes"
+      ]},
+      { id: "headwear", label: "Headwear", type: "select", options: [
+        "No Headwear","Baseball Cap","Snapback","Fitted Cap","Beanie","Durag","Headwrap","Bucket Hat"
+      ]},
+      { id: "watchType", label: "Watch", type: "select", options: [
+        "No Watch","Smartwatch","Luxury Metal Watch","Minimal Leather Watch","Sport Watch"
+      ]}
+    ],
+    extra: "accessories",
+    accessories: [
+      "Sunglasses","Backpack","Crossbody Bag","Belt",
+      "Phone in Hand","Headphones","Rings","Bracelets"
+    ],
+    jewelry: [
+      "Thin Chain","Thick Chain","Pendant","Rings",
+      "Bracelet","Stud Earrings","Hoop Earrings","Grill"
+    ]
+  },
+  creative: {
+    label: "Creative Direction", iconKey: "creative", ref: "SECTION — 04", desc: "Style, pose, camera, scene",
+    fields: [
+      { id: "styleDir", label: "Style Direction", type: "select", options: [
+        "Streetwear","Luxury Casual","Minimalist","High-Fashion Editorial",
+        "Athletic / Gym Wear","Skatewear","Urban Fashion","Beachwear",
+        "Vintage / Retro","Y2K Aesthetic","Rugged / Outdoors","Techwear"
+      ]},
+      { id: "pose", label: "Pose", type: "select", options: [
+        "Standing Relaxed","Walking","Sitting","Leaning on Wall","Hands in Pockets",
+        "Arms Crossed","Looking Over Shoulder","Full-Body Stance","Close-Up Chest Shot","Action Pose (Movement)"
+      ]},
+      { id: "cameraAngle", label: "Camera Angle", type: "select", options: [
+        "Front View","3/4 Angle","Side Profile","Back View","Low Angle (Power Look)",
+        "Eye Level","Close-Up","Wide Shot","Editorial Tilted Angle"
+      ]},
+      { id: "background", label: "Background / Scene", type: "select", options: [
+        "White Studio Backdrop","Neutral Seamless Background","Urban Street","Graffiti Wall",
+        "Luxury Interior","Minimal Modern Room","Beach / Boardwalk",
+        "Warehouse / Industrial","Nature / Outdoor","Blurred City Background"
+      ]},
+      { id: "lighting", label: "Lighting", type: "select", options: [
+        "Soft Studio Lighting","Bright Commercial Lighting","Natural Daylight",
+        "Golden Hour (Sunset)","Moody Shadows","High Contrast Fashion Lighting",
+        "Diffused Lighting","Dramatic Spotlight"
+      ]},
+      { id: "expression", label: "Expression", type: "select", options: [
+        "Neutral","Confident","Serious","Smiling","Relaxed","Playful","Intense Editorial","Thoughtful"
+      ]},
+      { id: "imageType", label: "Image Type", type: "select", options: [
+        "Studio Mockup (Clean, Product-Focused)","Lifestyle Shot (Real-World Feel)",
+        "Editorial (Magazine Style)","E-Commerce (Front/Back Clean Views)",
+        "Streetwear Campaign (Urban, Bold)","Lookbook (Multiple Angles Vibe)"
+      ]}
+    ]
+  },
+  notes: {
+    label: "Custom Notes", iconKey: "notes", ref: "SECTION — 05", desc: "Extra design details",
+    fields: [
+      { id: "customNotes", label: "Additional Design Details", type: "textarea",
+        placeholder: "e.g. skull with roses graphic, brand name across back in gothic font, vintage distressed look, add fog effect to background..." }
+    ]
+  }
+};
+
+// ═══════════════════ STATE ═══════════════════
+const state = {};
+const selectedPlacements = new Set();
+const selectedAccessories = new Set();
+const selectedJewelry = new Set();
+let currentSection = 'garment';
+const SECTION_KEYS = Object.keys(DATA);
+
+// ═══════════════════ COMPLETION ═══════════════════
+function getSectionCompletion(key) {
+  const sec = DATA[key];
+  let total = 0, filled = 0;
+  sec.fields.forEach(f => {
+    if (f.type === 'textarea') return;
+    total++;
+    if (state[f.id]) filled++;
+  });
+  if (sec.extra === 'placement') { total++; if (selectedPlacements.size) filled++; }
+  if (sec.extra === 'accessories') { total += 2; if (selectedAccessories.size) filled++; if (selectedJewelry.size) filled++; }
+  return total === 0 ? 0 : Math.round((filled / total) * 100);
+}
+
+// ═══════════════════ RENDER SECTION LIST ═══════════════════
+function renderSectionList() {
+  const container = document.getElementById('sectionList');
+  let done = 0;
+  container.innerHTML = SECTION_KEYS.map((key) => {
+    const sec = DATA[key];
+    const pct = getSectionCompletion(key);
+    const isDone = pct === 100;
+    if (isDone) done++;
+    const isActive = key === currentSection;
+    const badge = isDone ? '&#x2713; Done' : pct > 0 ? `${pct}%` : 'Empty';
+    return `<div class="section-item ${isActive ? 'active' : ''} ${isDone ? 'done' : ''}" onclick="switchSection('${key}')">
+      <div class="section-avatar">${ICONS[sec.iconKey] || ''}</div>
+      <div class="section-info">
+        <div class="section-name">${sec.label}</div>
+        <div class="section-desc">${sec.desc}</div>
+      </div>
+      <div class="section-badge">${badge}</div>
+    </div>`;
+  }).join('');
+  document.getElementById('doneCount').textContent = done;
+}
+
+// ═══════════════════ RENDER DETAIL FORM ═══════════════════
+// KEY FIX: This only runs on section SWITCH — not on every keystroke.
+// Textarea changes are handled by onTextareaChange() which never re-renders the DOM.
+function renderDetail() {
+  const sec = DATA[currentSection];
+  document.getElementById('detailRef').textContent = sec.ref;
+  document.getElementById('detailTitle').textContent = sec.label;
+
+  let html = '';
+  html += `<div class="field-section">
+    <div class="field-section-title">${sec.label} Options</div>
+    <div class="fields-grid">`;
+
+  sec.fields.forEach(f => {
+    if (f.type === 'select') {
+      const v = state[f.id] || '';
+      html += `<div class="field-group">
+        <label class="field-label">${f.label}</label>
+        <select class="field-select${v ? ' has-value' : ''}" id="fs_${f.id}"
+          onchange="onSelectChange('${f.id}', this.value, this)">
+          <option value="">— Choose —</option>
+          ${f.options.map(o => `<option${v === o ? ' selected' : ''}>${o}</option>`).join('')}
+        </select>
+      </div>`;
+    } else if (f.type === 'textarea') {
+      // textarea uses a separate handler that does NOT re-render
+      html += `<div class="field-group" style="grid-column:1/-1">
+        <label class="field-label">${f.label}</label>
+        <textarea class="field-textarea" id="fs_${f.id}"
+          placeholder="${f.placeholder || ''}"
+          oninput="onTextareaChange('${f.id}', this.value)">${state[f.id] || ''}</textarea>
+      </div>`;
+    }
+  });
+  html += `</div></div>`;
+
+  // Placement chips
+  if (sec.extra === 'placement' && sec.placements) {
+    html += `<div class="field-section">
+      <div class="field-section-title">
+        Design Placement
+        <span style="font-size:9px;text-transform:none;letter-spacing:0;font-weight:400;opacity:0.6;margin-left:4px">— select all that apply</span>
+      </div>
+      <div class="placement-wrap">
+        ${sec.placements.map(p => `
+          <div class="placement-chip${selectedPlacements.has(p) ? ' active' : ''}"
+            onclick="togglePlacement('${p}')">${p}</div>
+        `).join('')}
+      </div>
+    </div>`;
+  }
+
+  // Accessories + jewelry chips
+  if (sec.extra === 'accessories') {
+    html += `<div class="field-section">
+      <div class="field-section-title">Accessories</div>
+      <div class="chip-wrap">
+        ${(sec.accessories || []).map(a => `
+          <span class="m-chip${selectedAccessories.has(a) ? ' active' : ''}"
+            onclick="toggleAcc('${a}','acc')">${a}</span>
+        `).join('')}
+      </div>
+    </div>
+    <div class="field-section">
+      <div class="field-section-title">Jewelry</div>
+      <div class="chip-wrap">
+        ${(sec.jewelry || []).map(j => `
+          <span class="m-chip${selectedJewelry.has(j) ? ' active' : ''}"
+            onclick="toggleAcc('${j}','jew')">${j}</span>
+        `).join('')}
+      </div>
+    </div>`;
+  }
+
+  document.getElementById('detailBody').innerHTML = html;
+  updateDetailStatus();
+}
+
+// Update only the status badge in the header — no DOM wipe
+function updateDetailStatus() {
+  const pct = getSectionCompletion(currentSection);
+  const statusEl = document.getElementById('detailStatus');
+  statusEl.textContent = pct === 100 ? 'Complete' : pct > 0 ? `${pct}% done` : 'Incomplete';
+  statusEl.className = 'detail-status' + (pct === 100 ? ' done' : '');
+}
+
+// ═══════════════════ EVENTS ═══════════════════
+
+// Selects + chip toggles: update state, then refresh stats/sidebar/prompt only
+function onSelectChange(id, value, el) {
+  state[id] = value;
+  if (el && el.classList) el.classList.toggle('has-value', !!value);
+  updateDetailStatus();
+  updateSidebar();
+  updateStatCards();
+  updateProgressDots();
+  buildPrompt();
+}
+
+// TEXTAREA FIX: Only update state + prompt. Never touch the DOM.
+function onTextareaChange(id, value) {
+  state[id] = value;
+  buildPrompt(); // just rebuilds the prompt output, nothing else
+}
+
+function togglePlacement(val) {
+  selectedPlacements.has(val) ? selectedPlacements.delete(val) : selectedPlacements.add(val);
+  // Toggle the chip class directly instead of re-rendering
+  document.querySelectorAll('.placement-chip').forEach(el => {
+    if (el.textContent.trim() === val) el.classList.toggle('active', selectedPlacements.has(val));
+  });
+  updateDetailStatus();
+  updateSidebar();
+  updateStatCards();
+  updateProgressDots();
+  buildPrompt();
+}
+
+function toggleAcc(val, type) {
+  const set = type === 'acc' ? selectedAccessories : selectedJewelry;
+  set.has(val) ? set.delete(val) : set.add(val);
+  // Toggle chip class directly
+  document.querySelectorAll('.m-chip').forEach(el => {
+    if (el.textContent.trim() === val) el.classList.toggle('active', set.has(val));
+  });
+  updateDetailStatus();
+  updateSidebar();
+  updateStatCards();
+  updateProgressDots();
+  buildPrompt();
+}
+
+function switchSection(key) {
+  currentSection = key;
+  renderSectionList();
+  renderDetail(); // full re-render only on section switch — textarea is safe here
+}
+
+function nextSection() {
+  const idx = SECTION_KEYS.indexOf(currentSection);
+  if (idx < SECTION_KEYS.length - 1) switchSection(SECTION_KEYS[idx + 1]);
+}
+function prevSection() {
+  const idx = SECTION_KEYS.indexOf(currentSection);
+  if (idx > 0) switchSection(SECTION_KEYS[idx - 1]);
+}
+
+function syncFilter(fieldId, value) {
+  state[fieldId] = value;
+  const el = document.getElementById(`fs_${fieldId}`);
+  if (el) { el.value = value; el.classList.toggle('has-value', !!value); }
+  updateDetailStatus();
+  updateSidebar();
+  updateStatCards();
+  updateProgressDots();
+  buildPrompt();
+}
+
+function handleSearch(q) {
+  document.querySelectorAll('.placement-chip, .m-chip').forEach(el => {
+    el.style.display = (!q || el.textContent.toLowerCase().includes(q.toLowerCase())) ? '' : 'none';
+  });
+  document.querySelectorAll('.field-select option').forEach(el => {
+    el.style.display = (!q || el.value === '' || el.textContent.toLowerCase().includes(q.toLowerCase())) ? '' : 'none';
+  });
+}
+
+// ═══════════════════ SIDEBAR ONLY (no form re-render) ═══════════════════
+function updateSidebar() {
+  let done = 0;
+  SECTION_KEYS.forEach((key) => {
+    const sec = DATA[key];
+    const pct = getSectionCompletion(key);
+    const isDone = pct === 100;
+    if (isDone) done++;
+    const isActive = key === currentSection;
+    const badge = isDone ? '&#x2713; Done' : pct > 0 ? `${pct}%` : 'Empty';
+    const el = document.querySelector(`.section-item[data-key="${key}"]`);
+    if (el) {
+      el.className = `section-item${isActive ? ' active' : ''}${isDone ? ' done' : ''}`;
+      el.querySelector('.section-badge').innerHTML = badge;
+    }
+  });
+  document.getElementById('doneCount').textContent = done;
+}
+
+// ═══════════════════ PROMPT BUILD ═══════════════════
+function buildPrompt() {
+  const g = state.garmentType, color = state.garmentColor, fit = state.garmentFit,
+        ps = state.printStyle, ds = state.designSize;
+  const age = state.modelAge, gender = state.modelGender, race = state.modelRace,
+        body = state.modelBody, height = state.modelHeight, skin = state.modelSkin,
+        hair = state.modelHair, facial = state.modelFacial;
+  const bottom = state.bottomWear, shoes = state.footwear,
+        hat = state.headwear, watch = state.watchType;
+  const style = state.styleDir, pose = state.pose, cam = state.cameraAngle,
+        bg = state.background, light = state.lighting, exp = state.expression,
+        imgType = state.imageType;
+  const notes = state.customNotes;
+  const placements = [...selectedPlacements];
+  const accs = [...selectedAccessories];
+  const jew = [...selectedJewelry];
+
+  const parts = [];
+  const intro = imgType ? `Create a ${imgType.toLowerCase()}` : 'Create a high-quality realistic apparel mockup';
+  const mParts = [];
+  if (age) mParts.push(age.toLowerCase());
+  if (race) mParts.push(race.toLowerCase());
+  if (gender) mParts.push(gender.toLowerCase());
+  if (body) mParts.push(`with a ${body.toLowerCase()} build`);
+  if (height) mParts.push(`approximately ${height.toLowerCase()} tall`);
+  if (skin) mParts.push(`${skin.toLowerCase()} skin tone`);
+  const modelStr = mParts.length ? `featuring a ${mParts.join(', ')} model` : '';
+  parts.push(`${intro}${modelStr ? ' ' + modelStr : ''}.`);
+
+  const gParts = [];
+  if (color) gParts.push(color.toLowerCase());
+  if (fit) gParts.push(fit.toLowerCase());
+  if (g) gParts.push(g.toLowerCase());
+  if (gParts.length) parts.push(`The model is wearing a ${gParts.join(' ')}.`);
+
+  const lParts = [];
+  if (hair) lParts.push(`${hair.toLowerCase()} hair`);
+  if (facial) lParts.push(`${facial.toLowerCase()} facial hair`);
+  if (lParts.length) parts.push(`The model has ${lParts.join(' and ')}.`);
+
+  if (placements.length) {
+    parts.push(`Place the design${ds ? ' (' + ds.toLowerCase() + ')' : ''} at: ${placements.join(', ')}${ps ? ' with ' + ps.toLowerCase() + ' finish' : ''}.`);
+  } else if (ds || ps) {
+    parts.push(`Design is ${ds ? ds.toLowerCase() : 'standard'} size${ps ? ' with ' + ps.toLowerCase() + ' finish' : ''}.`);
+  }
+
+  const sParts = [];
+  if (bottom) sParts.push(bottom.toLowerCase());
+  if (shoes) sParts.push(shoes.toLowerCase());
+  if (sParts.length) parts.push(`Style with ${sParts.join(' and ')}.`);
+
+  const aParts = [];
+  if (hat && hat !== 'No Headwear') aParts.push(hat.toLowerCase());
+  if (watch && watch !== 'No Watch') aParts.push(watch.toLowerCase());
+  if (accs.length) aParts.push(...accs.map(a => a.toLowerCase()));
+  if (jew.length) aParts.push(...jew.map(j => j.toLowerCase()));
+  if (aParts.length) parts.push(`Accessories: ${aParts.join(', ')}.`);
+
+  const dParts = [];
+  if (style) dParts.push(`${style.toLowerCase()} style`);
+  if (pose) dParts.push(`${pose.toLowerCase()} pose`);
+  if (cam) dParts.push(`${cam.toLowerCase()} angle`);
+  if (bg) dParts.push(`${bg.toLowerCase()} background`);
+  if (light) dParts.push(light.toLowerCase());
+  if (exp) dParts.push(`${exp.toLowerCase()} expression`);
+  if (dParts.length) parts.push(`Direction: ${dParts.join(', ')}.`);
+
+  if (notes && notes.trim()) parts.push(`Notes: ${notes.trim()}`);
+
+  const hasMeat = parts.filter(p => !p.startsWith('Create a high-quality realistic apparel mockup.')).length > 0;
+  if (hasMeat) parts.push('Make fabric folds, print placement, shadows, and proportions look premium and realistic like a professional fashion campaign.');
+
+  const prompt = parts.join(' ');
+  const box = document.getElementById('promptOutput');
+  if (hasMeat) {
+    box.textContent = prompt;
+    box.classList.add('has-content');
+  } else {
+    box.innerHTML = '<span class="prompt-placeholder">Fill in the sections — your prompt builds here in real time…</span>';
+    box.classList.remove('has-content');
+  }
+
+  const wc = prompt.trim().split(/\s+/).filter(Boolean).length;
+  document.getElementById('stat-words').textContent = hasMeat ? `${wc} words` : '0 words';
+  const badge = document.getElementById('stat-badge');
+  const filledCount = Object.values(state).filter(v => v && String(v).trim()).length;
+  badge.textContent = filledCount >= 6 ? 'Ready' : 'Draft';
+  badge.style.background = filledCount >= 6 ? 'var(--lime)' : '';
+  badge.style.color = filledCount >= 6 ? '#111' : '';
+}
+
+// ═══════════════════ STAT CARDS ═══════════════════
+function updateStatCards() {
+  const gv = state.garmentType;
+  document.getElementById('stat-garment').textContent = gv ? gv.split('(')[0].trim() : '—';
+  const gf = DATA.garment.fields.filter(f => f.type === 'select');
+  const gFilled = gf.filter(f => state[f.id]).length;
+  document.getElementById('prog-garment').style.width = `${Math.round((gFilled / gf.length) * 100)}%`;
+
+  const mf = DATA.model.fields.filter(f => f.type === 'select');
+  const mFilled = mf.filter(f => state[f.id]).length;
+  document.getElementById('stat-model').textContent = `${mFilled} / ${mf.length}`;
+  document.getElementById('prog-model').style.width = `${Math.round((mFilled / mf.length) * 100)}%`;
+
+  const sf = DATA.styling.fields.filter(f => f.type === 'select');
+  const sFilled = sf.filter(f => state[f.id]).length + (selectedAccessories.size ? 1 : 0) + (selectedJewelry.size ? 1 : 0);
+  document.getElementById('stat-styling').textContent = `${sFilled} items`;
+  document.getElementById('prog-styling').style.width = `${Math.round((sFilled / (sf.length + 2)) * 100)}%`;
+}
+
+// ═══════════════════ PROGRESS DOTS ═══════════════════
+function updateProgressDots() {
+  let done = 0;
+  const html = SECTION_KEYS.map(key => {
+    const pct = getSectionCompletion(key);
+    if (pct === 100) done++;
+    const cls = pct === 100 ? 'done' : pct > 0 ? 'partial' : '';
+    return `<div class="p-dot ${cls}" title="${DATA[key].label}: ${pct}%"></div>`;
+  }).join('');
+  document.getElementById('progressDots').innerHTML = html;
+  document.getElementById('progressLabel').textContent = `${done} / ${SECTION_KEYS.length} sections`;
+}
+
+// ═══════════════════ FILTER BAR POPULATE ═══════════════════
+function populateFilters() {
+  const gt = document.getElementById('filterGarmentType');
+  DATA.garment.fields.find(f => f.id === 'garmentType').options.forEach(o => {
+    gt.appendChild(new Option(o, o));
+  });
+  const sd = document.getElementById('filterStyleDir');
+  DATA.creative.fields.find(f => f.id === 'styleDir').options.forEach(o => {
+    sd.appendChild(new Option(o, o));
+  });
+}
+
+// ═══════════════════ COPY & RESET ═══════════════════
+function copyPrompt() {
+  const box = document.getElementById('promptOutput');
+  const text = box.textContent;
+  if (!text || text.includes('Fill in the sections')) return;
+  navigator.clipboard.writeText(text).then(() => {
+    const t = document.getElementById('toast');
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2200);
+  });
+}
+
+function resetAll() {
+  Object.keys(state).forEach(k => delete state[k]);
+  selectedPlacements.clear(); selectedAccessories.clear(); selectedJewelry.clear();
+  document.getElementById('filterGarmentType').selectedIndex = 0;
+  document.getElementById('filterStyleDir').selectedIndex = 0;
+  currentSection = 'garment';
+  // Full re-render on reset is fine
+  renderSectionList();
+  renderDetail();
+  updateStatCards();
+  updateProgressDots();
+  buildPrompt();
+}
+
+// ═══════════════════ RENDER SECTION LIST WITH data-key ═══════════════════
+// Override to add data-key attribute so updateSidebar() can find items without re-render
+function renderSectionList() {
+  const container = document.getElementById('sectionList');
+  let done = 0;
+  container.innerHTML = SECTION_KEYS.map((key) => {
+    const sec = DATA[key];
+    const pct = getSectionCompletion(key);
+    const isDone = pct === 100;
+    if (isDone) done++;
+    const isActive = key === currentSection;
+    const badge = isDone ? '&#x2713; Done' : pct > 0 ? `${pct}%` : 'Empty';
+    return `<div class="section-item${isActive ? ' active' : ''}${isDone ? ' done' : ''}" data-key="${key}" onclick="switchSection('${key}')">
+      <div class="section-avatar">${ICONS[sec.iconKey] || ''}</div>
+      <div class="section-info">
+        <div class="section-name">${sec.label}</div>
+        <div class="section-desc">${sec.desc}</div>
+      </div>
+      <div class="section-badge">${badge}</div>
+    </div>`;
+  }).join('');
+  document.getElementById('doneCount').textContent = done;
+}
+
+// ═══════════════════ INIT ═══════════════════
+populateFilters();
+renderSectionList();
+renderDetail();
+updateStatCards();
+updateProgressDots();
+buildPrompt();
+</script>
+</body>
+</html>
