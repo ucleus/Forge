@@ -634,6 +634,26 @@ function copyPrompt() {
   forgeCopy(p, () => forgeShowToast(2400));
 }
 
+function startNewPrompt() {
+  forgeStartNewPrompt(resetAll);
+}
+
+function openCollections() {
+  forgeOpenCollections();
+}
+
+function exportPrompt() {
+  forgeExportPrompt(() => buildPrompt(), 'forge-midjourney-prompt');
+}
+
+function showLayoutGrid() {
+  forgeShowLayoutGrid('sectionList');
+}
+
+function openSettings() {
+  forgeOpenSettings('searchInput');
+}
+
 // ═══════════════════ RESET ═══════════════════
 function resetAll() {
   state = {};
