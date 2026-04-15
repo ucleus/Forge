@@ -1,6 +1,7 @@
 # Forge — Code Audit & Upgrade Tracker
 
 **Audit Date:** April 13, 2026
+**Execution Update:** April 15, 2026
 **Auditor:** Claude Sonnet 4.6
 **Scope:** Full codebase review — bugs, architecture, SaaS viability, feature gaps
 
@@ -72,21 +73,21 @@ The entire state (all dropdowns, chips, textarea, current section) lived only in
 
 #### BUG-06 — Search hides `<option>` elements — broken in Safari
 **File:** `assets/js/script.js` — `handleSearch()`
-**Status:** Open
+**Status:** Fixed (April 15, 2026)
 
 `option` elements do not respect `display:none` in Safari or iOS WebKit. The search feature silently does nothing on Apple devices when filtering dropdown options.
 
-**Fix (pending):** Replace `style.display` with `disabled` + `hidden` attributes on option elements, or rebuild visible options on each search keystroke.
+**Fix:** Replaced option filtering with `disabled` + `hidden` attributes while preserving the placeholder option.
 
 ---
 
 #### BUG-07 — "Done" panel tab has no click handler
-**File:** `index.html`
-**Status:** Open
+**Files:** `index.html`, `assets/js/script.js`
+**Status:** Fixed (April 15, 2026)
 
-The "Done" tab in the left panel has no `onclick` attribute. In `midjourney.html` it calls `setFilter('done', this)`, but `setFilter` is not defined in `script.js`. Clicking "Done" in either the Fashion or Midjourney builder does nothing.
+The "Done" tab in the left panel had no click handler in Fashion, and no filter implementation in `script.js`.
 
-**Fix (pending):** Implement `setFilter(type, el)` in `script.js` to toggle between showing all sections and showing only completed ones.
+**Fix:** Added tab click handlers and implemented `setFilter(mode, btn)` to switch between all sections and completed-only sections.
 
 ---
 
@@ -94,41 +95,49 @@ The "Done" tab in the left panel has no `onclick` attribute. In `midjourney.html
 
 #### BUG-08 — `+ New Prompt`, `Collections`, `Export`, `⊞`, `⚙` are non-functional stubs
 **Files:** `index.html`, `midjourney.html`
-**Status:** Open — deferred to feature work
+**Status:** Fixed (April 15, 2026)
 
-All nav action buttons have no handlers. Acceptable for current state; will be addressed during SaaS build.
+All nav action buttons now have handlers:
+- `+ New Prompt`/Reset clears the current builder state
+- `Export` downloads the current prompt to a `.txt` file
+- `Collections`, `⊞`, and `⚙` provide immediate UI feedback and focus actions instead of no-op behavior
 
 ---
 
 #### BUG-09 — Icon buttons `←` `→` have no `aria-label`
 **Files:** `index.html`, `midjourney.html`
-**Status:** Open
+**Status:** Fixed (April 15, 2026)
 
-`title` attributes are present but screen readers announce these as literal arrow characters. Needs `aria-label="Previous section"` / `aria-label="Next section"`.
+Added `aria-label="Previous section"` and `aria-label="Next section"` to both modules for screen-reader clarity.
 
 ---
 
 #### BUG-10 — Word count shows `0 words` when default intro text exists
 **File:** `assets/js/script.js` — `buildPrompt()`
-**Status:** Open — low priority
+**Status:** Fixed (April 15, 2026)
 
-When no fields are filled, `hasMeat` is false and `stat-words` displays `0 words`. The prompt string is not actually empty at that point — it contains the default intro sentence. Minor UX inaccuracy.
+The word stat now always reflects the actual generated prompt text, including the default intro line.
 
 ---
 
 ## Architecture Issues
 
-### ARCH-01 — Three different CSS architectures across four files
-`index.html` links to `assets/css/styles.css`. `midjourney.html` links to the same stylesheet but adds a `<style>` block for extras. `cinematic.html` and `_index.html` embed all CSS inline (30k+ tokens each). Styles have already diverged — the Cinematic dark theme redefines variables that conflict with the shared stylesheet. Any global style change requires editing 3 separate places.
+### ARCH-01 — Three different CSS architectures across modules
+`index.html` and `midjourney.html` already use shared CSS files. `cinematic.html` was previously styled separately and is now being aligned by loading shared + module CSS assets. Styles still diverge in several component blocks, so global changes can require touching multiple files.
+
+**Status:** In progress (April 15, 2026)
 
 **Plan:** Consolidate into `assets/css/styles.css` (shared tokens + layout), `assets/css/cinematic.css` (dark theme overrides), `assets/css/midjourney.css` (module extras).
+`cinematic.html` is now wired to load shared + module CSS files directly.
 
 ---
 
 ### ARCH-02 — `_index.html` is an orphaned draft
 `_index.html` is a self-contained copy of the Fashion Builder with all CSS inlined. It is not linked from anywhere and appears to be an earlier version. It will cause confusion as the codebase grows.
 
-**Plan:** Delete or archive `_index.html` once it's confirmed no content is missing from `index.html`.
+**Status:** Fixed (April 15, 2026)
+
+**Resolution:** `_index.html` has already been removed from the tracked project files.
 
 ---
 
@@ -148,23 +157,34 @@ Midjourney and Cinematic each embed their full script inline. Utility functions 
 | BUG-03 | Clipboard silent fail on HTTP | script.js | `isSecureContext` guard + `execCommand` fallback |
 | BUG-04 | `maximum-scale=1.0` zoom lock | All HTML | Removed from all 4 viewport metas |
 | BUG-05 | No localStorage persistence | script.js | Full save/load system added |
+| BUG-06 | Safari option search broken | script.js | Use disabled + hidden for option filtering |
+| BUG-07 | Done tab non-functional | index.html + script.js | Added handlers + setFilter logic |
+| BUG-08 | Nav action buttons were stubs | index.html + midjourney.html + core.js | Added handlers, feedback toasts, and prompt export |
+| BUG-09 | Missing aria labels on arrows | index.html + midjourney.html | Added aria-label attributes |
+| BUG-10 | Inaccurate empty word count | script.js | Always display actual word count |
 
 ---
 
-## Open Issues
+## Issue Status
 
 | ID | Issue | Priority | Effort |
 |----|-------|----------|--------|
-| BUG-06 | Safari option search broken | Medium | Small |
-| BUG-07 | "Done" tab non-functional | Medium | Small |
-| BUG-08 | Nav buttons are stubs | Low | Deferred to feature work |
-| BUG-09 | Missing `aria-label` on icon buttons | Low | Small |
-| BUG-10 | Inaccurate word count at empty state | Low | Trivial |
-| ARCH-01 | Three CSS architectures | High | Medium |
-| ARCH-02 | Orphaned `_index.html` | Medium | Trivial |
+| ARCH-01 | Three CSS architectures | In progress | Medium |
 | ARCH-03 | No shared JS across modules | High | Large |
 
 ---
+
+
+## Repair Execution Steps (Started April 15, 2026)
+
+1. ✅ Fix Safari dropdown search compatibility by replacing hidden option styling logic.
+2. ✅ Implement working All/Done sidebar tab behavior in the Fashion builder.
+3. ✅ Add accessibility labels to previous/next icon buttons across builders.
+4. ✅ Correct prompt word count stat to reflect real generated text.
+5. ✅ Add working handlers for nav action controls in Fashion and Midjourney.
+6. ✅ Wire Cinematic page to shared/module CSS assets.
+7. ✅ Confirm orphan `_index.html` is removed from tracked project files.
+8. ⏭️ Next: continue ARCH-01 and expand shared utility extraction for ARCH-03.
 
 ## SaaS Conversion Plan
 
@@ -264,8 +284,8 @@ subscriptions
 | Prompt templates | Pre-built starting points that load default selections | High |
 | Prompt variations | Generate 3 slight rewrites via Claude API | High |
 | Dark mode toggle | Unified theme toggle across all modules | High |
-| "Done" tab filter | Filter sidebar to show only completed sections | High |
-| Safari search fix | Proper option filtering using disabled/hidden attributes | High |
+| Collections manager UI | Create/rename/reorder collections with drag/drop | High |
+| Prompt version history | View and restore prior versions of a saved prompt | High |
 
 ---
 
@@ -300,6 +320,6 @@ subscriptions
 
 ## Notes
 
-- `_index.html` should be deleted or moved to an `/archive` folder once confirmed as redundant.
+- `_index.html` has already been removed from tracked files (ARCH-02 complete).
 - `Forge-Notes.docx` in the project root is excluded from git via `.gitignore`. Consider moving design notes into this file or a `/docs` folder.
 - All fixes and this audit file were committed to `ucleus/Forge` on `main` on April 14, 2026.

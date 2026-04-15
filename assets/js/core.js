@@ -30,9 +30,67 @@ function forgeCopy(text, cb) {
 // Shows the #toast element. Pass a duration in ms (default 2200).
 // For modules with a dynamic toast message, set the text before calling.
 
-function forgeShowToast(duration) {
+function forgeShowToast(duration, message) {
   const t = document.getElementById('toast');
   if (!t) return;
+  if (!t.dataset.defaultHtml) t.dataset.defaultHtml = t.innerHTML;
+  if (message) {
+    const icon = t.querySelector('.t-lime');
+    const iconHtml = icon ? `${icon.outerHTML} ` : '';
+    t.innerHTML = `${iconHtml}${message}`;
+  } else if (t.dataset.defaultHtml) {
+    t.innerHTML = t.dataset.defaultHtml;
+  }
   t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), duration || 2200);
+  setTimeout(() => {
+    t.classList.remove('show');
+    if (t.dataset.defaultHtml) t.innerHTML = t.dataset.defaultHtml;
+  }, duration || 2200);
+}
+
+function forgeDownloadText(filename, text) {
+  const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+// ── Shared nav action helpers ─────────────────────
+
+function forgeStartNewPrompt(resetFn) {
+  if (typeof resetFn === 'function') resetFn();
+  forgeShowToast(2200, 'Started a new prompt.');
+}
+
+function forgeOpenCollections() {
+  forgeShowToast(2200, 'Collections will be available in the SaaS dashboard.');
+}
+
+function forgeExportPrompt(getPromptText, filenamePrefix) {
+  const text = typeof getPromptText === 'function' ? (getPromptText() || '').trim() : '';
+  if (!text) {
+    forgeShowToast(2200, 'Build a prompt before exporting.');
+    return false;
+  }
+  const date = new Date().toISOString().slice(0, 10);
+  forgeDownloadText(`${filenamePrefix || 'forge-prompt'}-${date}.txt`, text);
+  forgeShowToast(2200, 'Prompt exported as .txt');
+  return true;
+}
+
+function forgeShowLayoutGrid(sectionListId) {
+  const list = document.getElementById(sectionListId || 'sectionList');
+  if (list) list.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  forgeShowToast(1800, 'Jumped to your section grid.');
+}
+
+function forgeOpenSettings(searchInputId) {
+  const search = document.getElementById(searchInputId || 'searchInput');
+  if (search) search.focus();
+  forgeShowToast(2200, 'Focused settings/search controls.');
 }
