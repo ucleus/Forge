@@ -525,29 +525,6 @@ function copyPrompt() {
   forgeCopy(text, () => forgeShowToast(2200));
 }
 
-function startNewPrompt() {
-  forgeStartNewPrompt(resetAll);
-}
-
-function openCollections() {
-  forgeOpenCollections();
-}
-
-function exportPrompt() {
-  forgeExportPrompt(() => {
-    const text = document.getElementById('promptOutput').textContent.trim();
-    return text && !text.includes('Fill in the sections') ? text : '';
-  }, 'forge-fashion-prompt');
-}
-
-function showLayoutGrid() {
-  forgeShowLayoutGrid('sectionList');
-}
-
-function openSettings() {
-  forgeOpenSettings('searchInput');
-}
-
 function resetAll() {
   Object.keys(state).forEach(k => delete state[k]);
   selectedPlacements.clear(); selectedAccessories.clear(); selectedJewelry.clear();

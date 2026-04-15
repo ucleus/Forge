@@ -19,7 +19,11 @@ rg -n "assets/css/styles.css|assets/css/cinematic.css" cinematic.html >/dev/null
 
 echo "==> Shared handler checks"
 rg -n "function forge(StartNewPrompt|OpenCollections|ExportPrompt|ShowLayoutGrid|OpenSettings)" assets/js/core.js >/dev/null
-rg -n "function (startNewPrompt|openCollections|exportPrompt|showLayoutGrid|openSettings)" assets/js/script.js assets/js/midjourney.js >/dev/null
+rg -n "forge(StartNewPrompt|OpenCollections|ExportFromPromptOutput|ExportPrompt|ShowLayoutGrid|OpenSettings)" index.html midjourney.html >/dev/null
+if rg -n "function (startNewPrompt|openCollections|exportPrompt|showLayoutGrid|openSettings)" assets/js/script.js assets/js/midjourney.js >/dev/null; then
+  echo "Legacy per-module nav wrappers should not exist."
+  exit 1
+fi
 
 echo "==> Repo hygiene checks"
 if git ls-files | rg -q "_index\\.html"; then

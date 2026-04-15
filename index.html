@@ -20,13 +20,13 @@
     <a class="nav-tab" href="midjourney.html" style="text-decoration:none">Midjourney</a>
     <button class="nav-tab active">Fashion</button>
     <a class="nav-tab" href="cinematic.html" style="text-decoration:none">Cinematic</a>
-    <button class="nav-tab" onclick="openCollections()">Collections</button>
-    <button class="nav-tab" onclick="exportPrompt()">Export</button>
+    <button class="nav-tab" onclick="forgeOpenCollections()">Collections</button>
+    <button class="nav-tab" onclick="forgeExportFromPromptOutput('promptOutput','Fill in the sections','forge-fashion-prompt')">Export</button>
   </div>
   <div class="nav-actions">
-    <button class="nav-icon-btn" title="Grid" aria-label="Jump to section grid" onclick="showLayoutGrid()">⊞</button>
-    <button class="nav-icon-btn" title="Settings" aria-label="Focus settings controls" onclick="openSettings()">⚙</button>
-    <button class="btn-create" onclick="startNewPrompt()">+ New Prompt</button>
+    <button class="nav-icon-btn" title="Grid" aria-label="Jump to section grid" onclick="forgeShowLayoutGrid()">⊞</button>
+    <button class="nav-icon-btn" title="Settings" aria-label="Focus settings controls" onclick="forgeOpenSettings()">⚙</button>
+    <button class="btn-create" onclick="forgeStartNewPrompt(resetAll)">+ New Prompt</button>
   </div>
 </nav>
 

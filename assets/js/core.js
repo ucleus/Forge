@@ -83,6 +83,17 @@ function forgeExportPrompt(getPromptText, filenamePrefix) {
   return true;
 }
 
+function forgeExportFromPromptOutput(outputId, placeholderText, filenamePrefix) {
+  return forgeExportPrompt(() => {
+    const output = document.getElementById(outputId || 'promptOutput');
+    if (!output) return '';
+    const text = (output.textContent || '').trim();
+    if (!text) return '';
+    if (placeholderText && text.includes(placeholderText)) return '';
+    return text;
+  }, filenamePrefix);
+}
+
 function forgeShowLayoutGrid(sectionListId) {
   const list = document.getElementById(sectionListId || 'sectionList');
   if (list) list.scrollIntoView({ behavior: 'smooth', block: 'start' });

@@ -192,7 +192,7 @@ Midjourney and Cinematic each embed their full script inline. Utility functions 
 - ✅ BUG-08 nav action handlers completed.
 - ✅ ARCH-02 orphan `_index.html` removal confirmed.
 - 🟡 PR A (CSS token/layout consolidation): in progress — Cinematic now relies on shared base/reset/nav styles with cinematic-specific overrides layered on top.
-- 🟡 PR B (shared JS extraction): in progress via `assets/js/core.js`.
+- 🟡 PR B (shared JS extraction): in progress — duplicated Fashion/Midjourney nav wrappers removed; pages now call shared `core.js` helpers directly.
 - ✅ PR C (regression pass): added and validated a repository smoke script at `scripts/regression-smoke.sh`.
 
 ## SaaS Conversion Plan
