@@ -21,13 +21,13 @@
     <a class="nav-tab active" href="midjourney.html" style="text-decoration:none">Midjourney</a>
     <a class="nav-tab" href="index.html" style="text-decoration:none">Fashion</a>
     <a class="nav-tab" href="cinematic.html" style="text-decoration:none">Cinematic</a>
-    <button class="nav-tab">Collections</button>
-    <button class="nav-tab">Export</button>
+    <button class="nav-tab" onclick="openCollections()">Collections</button>
+    <button class="nav-tab" onclick="exportPrompt()">Export</button>
   </div>
   <div class="nav-actions">
-    <button class="nav-icon-btn" title="Grid">⊞</button>
-    <button class="nav-icon-btn" title="Settings">⚙</button>
-    <button class="btn-create" onclick="resetAll()">↺ Reset</button>
+    <button class="nav-icon-btn" title="Grid" aria-label="Jump to section grid" onclick="showLayoutGrid()">⊞</button>
+    <button class="nav-icon-btn" title="Settings" aria-label="Focus settings controls" onclick="openSettings()">⚙</button>
+    <button class="btn-create" onclick="startNewPrompt()">↺ Reset</button>
   </div>
 </nav>
 

@@ -95,9 +95,12 @@ The "Done" tab in the left panel had no click handler in Fashion, and no filter 
 
 #### BUG-08 — `+ New Prompt`, `Collections`, `Export`, `⊞`, `⚙` are non-functional stubs
 **Files:** `index.html`, `midjourney.html`
-**Status:** Open — deferred to feature work
+**Status:** Fixed (April 15, 2026)
 
-All nav action buttons have no handlers. Acceptable for current state; will be addressed during SaaS build.
+All nav action buttons now have handlers:
+- `+ New Prompt`/Reset clears the current builder state
+- `Export` downloads the current prompt to a `.txt` file
+- `Collections`, `⊞`, and `⚙` provide immediate UI feedback and focus actions instead of no-op behavior
 
 ---
 
@@ -119,17 +122,22 @@ The word stat now always reflects the actual generated prompt text, including th
 
 ## Architecture Issues
 
-### ARCH-01 — Three different CSS architectures across four files
-`index.html` links to `assets/css/styles.css`. `midjourney.html` links to the same stylesheet but adds a `<style>` block for extras. `cinematic.html` and `_index.html` embed all CSS inline (30k+ tokens each). Styles have already diverged — the Cinematic dark theme redefines variables that conflict with the shared stylesheet. Any global style change requires editing 3 separate places.
+### ARCH-01 — Three different CSS architectures across modules
+`index.html` and `midjourney.html` already use shared CSS files. `cinematic.html` was previously styled separately and is now being aligned by loading shared + module CSS assets. Styles still diverge in several component blocks, so global changes can require touching multiple files.
+
+**Status:** In progress (April 15, 2026)
 
 **Plan:** Consolidate into `assets/css/styles.css` (shared tokens + layout), `assets/css/cinematic.css` (dark theme overrides), `assets/css/midjourney.css` (module extras).
+`cinematic.html` is now wired to load shared + module CSS files directly.
 
 ---
 
 ### ARCH-02 — `_index.html` is an orphaned draft
 `_index.html` is a self-contained copy of the Fashion Builder with all CSS inlined. It is not linked from anywhere and appears to be an earlier version. It will cause confusion as the codebase grows.
 
-**Plan:** Delete or archive `_index.html` once it's confirmed no content is missing from `index.html`.
+**Status:** Fixed (April 15, 2026)
+
+**Resolution:** `_index.html` has already been removed from the tracked project files.
 
 ---
 
@@ -151,6 +159,7 @@ Midjourney and Cinematic each embed their full script inline. Utility functions 
 | BUG-05 | No localStorage persistence | script.js | Full save/load system added |
 | BUG-06 | Safari option search broken | script.js | Use disabled + hidden for option filtering |
 | BUG-07 | Done tab non-functional | index.html + script.js | Added handlers + setFilter logic |
+| BUG-08 | Nav action buttons were stubs | index.html + midjourney.html + core.js | Added handlers, feedback toasts, and prompt export |
 | BUG-09 | Missing aria labels on arrows | index.html + midjourney.html | Added aria-label attributes |
 | BUG-10 | Inaccurate empty word count | script.js | Always display actual word count |
 
@@ -162,11 +171,11 @@ Midjourney and Cinematic each embed their full script inline. Utility functions 
 |----|-------|----------|--------|
 | BUG-06 | Safari option search broken | ✅ Fixed | Small |
 | BUG-07 | "Done" tab non-functional | ✅ Fixed | Small |
-| BUG-08 | Nav buttons are stubs | Low | Deferred to feature work |
+| BUG-08 | Nav buttons are stubs | ✅ Fixed | Small |
 | BUG-09 | Missing `aria-label` on icon buttons | ✅ Fixed | Small |
 | BUG-10 | Inaccurate word count at empty state | ✅ Fixed | Trivial |
-| ARCH-01 | Three CSS architectures | High | Medium |
-| ARCH-02 | Orphaned `_index.html` | Medium | Trivial |
+| ARCH-01 | Three CSS architectures | In progress | Medium |
+| ARCH-02 | Orphaned `_index.html` | ✅ Fixed | Trivial |
 | ARCH-03 | No shared JS across modules | High | Large |
 
 ---
@@ -178,7 +187,10 @@ Midjourney and Cinematic each embed their full script inline. Utility functions 
 2. ✅ Implement working All/Done sidebar tab behavior in the Fashion builder.
 3. ✅ Add accessibility labels to previous/next icon buttons across builders.
 4. ✅ Correct prompt word count stat to reflect real generated text.
-5. ⏭️ Next: resolve architecture issues ARCH-01 to ARCH-03 in phased refactors.
+5. ✅ Add working handlers for nav action controls in Fashion and Midjourney.
+6. ✅ Wire Cinematic page to shared/module CSS assets.
+7. ✅ Confirm orphan `_index.html` is removed from tracked project files.
+8. ⏭️ Next: continue ARCH-01 and expand shared utility extraction for ARCH-03.
 
 ## SaaS Conversion Plan
 
