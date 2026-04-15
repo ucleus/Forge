@@ -186,6 +186,15 @@ Midjourney and Cinematic each embed their full script inline. Utility functions 
 7. ✅ Confirm orphan `_index.html` is removed from tracked project files.
 8. ⏭️ Next: continue ARCH-01 and expand shared utility extraction for ARCH-03.
 
+### Practical Sequence Status (April 15, 2026)
+
+- ✅ Tracker consistency cleanup completed.
+- ✅ BUG-08 nav action handlers completed.
+- ✅ ARCH-02 orphan `_index.html` removal confirmed.
+- 🟡 PR A (CSS token/layout consolidation): in progress.
+- 🟡 PR B (shared JS extraction): in progress via `assets/js/core.js`.
+- ✅ PR C (regression pass): added and validated a repository smoke script at `scripts/regression-smoke.sh`.
+
 ## SaaS Conversion Plan
 
 ### Should this be converted to PHP + a database?

@@ -128,12 +128,18 @@ Forge/
 ├── index.html          — Fashion Builder
 ├── midjourney.html     — Midjourney Builder
 ├── cinematic.html      — Cinematic Builder
-├── _index.html         — Draft / reference version of Fashion Builder
 ├── assets/
 │   ├── css/
-│   │   └── styles.css  — Shared styles (Fashion + Midjourney)
+│   │   ├── styles.css      — Shared base styles
+│   │   ├── midjourney.css  — Midjourney-specific styles
+│   │   └── cinematic.css   — Cinematic-specific dark theme overrides
 │   └── js/
-│       └── script.js   — Fashion Builder logic + data
+│       ├── core.js         — Shared utilities and nav helpers
+│       ├── script.js       — Fashion Builder logic + data
+│       ├── midjourney.js   — Midjourney Builder logic + data
+│       └── cinematic.js    — Cinematic Builder logic + data
+├── scripts/
+│   └── regression-smoke.sh — Cross-module smoke checks
 └── .gitignore
 ```
 
