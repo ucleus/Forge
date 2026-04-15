@@ -30,9 +30,32 @@ function forgeCopy(text, cb) {
 // Shows the #toast element. Pass a duration in ms (default 2200).
 // For modules with a dynamic toast message, set the text before calling.
 
-function forgeShowToast(duration) {
+function forgeShowToast(duration, message) {
   const t = document.getElementById('toast');
   if (!t) return;
+  if (!t.dataset.defaultHtml) t.dataset.defaultHtml = t.innerHTML;
+  if (message) {
+    const icon = t.querySelector('.t-lime');
+    const iconHtml = icon ? `${icon.outerHTML} ` : '';
+    t.innerHTML = `${iconHtml}${message}`;
+  } else if (t.dataset.defaultHtml) {
+    t.innerHTML = t.dataset.defaultHtml;
+  }
   t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), duration || 2200);
+  setTimeout(() => {
+    t.classList.remove('show');
+    if (t.dataset.defaultHtml) t.innerHTML = t.dataset.defaultHtml;
+  }, duration || 2200);
+}
+
+function forgeDownloadText(filename, text) {
+  const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
 }

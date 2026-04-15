@@ -634,6 +634,37 @@ function copyPrompt() {
   forgeCopy(p, () => forgeShowToast(2400));
 }
 
+function startNewPrompt() {
+  resetAll();
+  forgeShowToast(2200, 'Started a new prompt.');
+}
+
+function openCollections() {
+  forgeShowToast(2200, 'Collections will be available in the SaaS dashboard.');
+}
+
+function exportPrompt() {
+  const prompt = buildPrompt();
+  if (!prompt) {
+    forgeShowToast(2200, 'Build a prompt before exporting.');
+    return;
+  }
+  forgeDownloadText(`forge-midjourney-prompt-${new Date().toISOString().slice(0, 10)}.txt`, prompt);
+  forgeShowToast(2200, 'Prompt exported as .txt');
+}
+
+function showLayoutGrid() {
+  const list = document.getElementById('sectionList');
+  if (list) list.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  forgeShowToast(1800, 'Jumped to your section grid.');
+}
+
+function openSettings() {
+  const search = document.getElementById('searchInput');
+  if (search) search.focus();
+  forgeShowToast(2200, 'Focused settings/search controls.');
+}
+
 // ═══════════════════ RESET ═══════════════════
 function resetAll() {
   state = {};
