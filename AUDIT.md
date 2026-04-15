@@ -165,17 +165,11 @@ Midjourney and Cinematic each embed their full script inline. Utility functions 
 
 ---
 
-## Open Issues
+## Issue Status
 
 | ID | Issue | Priority | Effort |
 |----|-------|----------|--------|
-| BUG-06 | Safari option search broken | ✅ Fixed | Small |
-| BUG-07 | "Done" tab non-functional | ✅ Fixed | Small |
-| BUG-08 | Nav buttons are stubs | ✅ Fixed | Small |
-| BUG-09 | Missing `aria-label` on icon buttons | ✅ Fixed | Small |
-| BUG-10 | Inaccurate word count at empty state | ✅ Fixed | Trivial |
 | ARCH-01 | Three CSS architectures | In progress | Medium |
-| ARCH-02 | Orphaned `_index.html` | ✅ Fixed | Trivial |
 | ARCH-03 | No shared JS across modules | High | Large |
 
 ---
@@ -290,8 +284,8 @@ subscriptions
 | Prompt templates | Pre-built starting points that load default selections | High |
 | Prompt variations | Generate 3 slight rewrites via Claude API | High |
 | Dark mode toggle | Unified theme toggle across all modules | High |
-| "Done" tab filter | Filter sidebar to show only completed sections | High |
-| Safari search fix | Proper option filtering using disabled/hidden attributes | High |
+| Collections manager UI | Create/rename/reorder collections with drag/drop | High |
+| Prompt version history | View and restore prior versions of a saved prompt | High |
 
 ---
 
@@ -326,6 +320,6 @@ subscriptions
 
 ## Notes
 
-- `_index.html` should be deleted or moved to an `/archive` folder once confirmed as redundant.
+- `_index.html` has already been removed from tracked files (ARCH-02 complete).
 - `Forge-Notes.docx` in the project root is excluded from git via `.gitignore`. Consider moving design notes into this file or a `/docs` folder.
 - All fixes and this audit file were committed to `ucleus/Forge` on `main` on April 14, 2026.
