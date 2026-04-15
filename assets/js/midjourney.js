@@ -594,7 +594,7 @@ function buildPrompt() {
   const par = params.join(' ');
 
   if (!txt && !par) return '';
-  return `/imagine prompt: ${txt}${par ? ' ' + par : ''}`;
+  return `${txt}${par ? ' ' + par : ''}`;
 }
 
 function updatePrompt() {
@@ -619,7 +619,7 @@ function updatePrompt() {
     if (state['weird'])       pv.push(`--w ${state['weird']}`);
     chips.innerHTML = pv.map(p => `<span class="param-chip">${p}</span>`).join('');
   } else {
-    output.innerHTML = '<span class="prompt-placeholder">Fill in sections — your Midjourney /imagine prompt builds here in real time…</span>';
+    output.innerHTML = '<span class="prompt-placeholder">Fill in sections — your Midjourney prompt builds here in real time…</span>';
     output.classList.remove('has-content');
     document.getElementById('stat-words').textContent = '0 words';
     document.getElementById('stat-badge').textContent = 'Draft';
