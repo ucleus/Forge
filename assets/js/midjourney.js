@@ -635,34 +635,23 @@ function copyPrompt() {
 }
 
 function startNewPrompt() {
-  resetAll();
-  forgeShowToast(2200, 'Started a new prompt.');
+  forgeStartNewPrompt(resetAll);
 }
 
 function openCollections() {
-  forgeShowToast(2200, 'Collections will be available in the SaaS dashboard.');
+  forgeOpenCollections();
 }
 
 function exportPrompt() {
-  const prompt = buildPrompt();
-  if (!prompt) {
-    forgeShowToast(2200, 'Build a prompt before exporting.');
-    return;
-  }
-  forgeDownloadText(`forge-midjourney-prompt-${new Date().toISOString().slice(0, 10)}.txt`, prompt);
-  forgeShowToast(2200, 'Prompt exported as .txt');
+  forgeExportPrompt(() => buildPrompt(), 'forge-midjourney-prompt');
 }
 
 function showLayoutGrid() {
-  const list = document.getElementById('sectionList');
-  if (list) list.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  forgeShowToast(1800, 'Jumped to your section grid.');
+  forgeShowLayoutGrid('sectionList');
 }
 
 function openSettings() {
-  const search = document.getElementById('searchInput');
-  if (search) search.focus();
-  forgeShowToast(2200, 'Focused settings/search controls.');
+  forgeOpenSettings('searchInput');
 }
 
 // ═══════════════════ RESET ═══════════════════

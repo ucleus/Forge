@@ -59,3 +59,38 @@ function forgeDownloadText(filename, text) {
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
 }
+
+// ── Shared nav action helpers ─────────────────────
+
+function forgeStartNewPrompt(resetFn) {
+  if (typeof resetFn === 'function') resetFn();
+  forgeShowToast(2200, 'Started a new prompt.');
+}
+
+function forgeOpenCollections() {
+  forgeShowToast(2200, 'Collections will be available in the SaaS dashboard.');
+}
+
+function forgeExportPrompt(getPromptText, filenamePrefix) {
+  const text = typeof getPromptText === 'function' ? (getPromptText() || '').trim() : '';
+  if (!text) {
+    forgeShowToast(2200, 'Build a prompt before exporting.');
+    return false;
+  }
+  const date = new Date().toISOString().slice(0, 10);
+  forgeDownloadText(`${filenamePrefix || 'forge-prompt'}-${date}.txt`, text);
+  forgeShowToast(2200, 'Prompt exported as .txt');
+  return true;
+}
+
+function forgeShowLayoutGrid(sectionListId) {
+  const list = document.getElementById(sectionListId || 'sectionList');
+  if (list) list.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  forgeShowToast(1800, 'Jumped to your section grid.');
+}
+
+function forgeOpenSettings(searchInputId) {
+  const search = document.getElementById(searchInputId || 'searchInput');
+  if (search) search.focus();
+  forgeShowToast(2200, 'Focused settings/search controls.');
+}

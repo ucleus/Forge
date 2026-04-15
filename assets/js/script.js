@@ -526,34 +526,26 @@ function copyPrompt() {
 }
 
 function startNewPrompt() {
-  resetAll();
-  forgeShowToast(2200, 'Started a new prompt.');
+  forgeStartNewPrompt(resetAll);
 }
 
 function openCollections() {
-  forgeShowToast(2200, 'Collections will be available in the SaaS dashboard.');
+  forgeOpenCollections();
 }
 
 function exportPrompt() {
-  const text = document.getElementById('promptOutput').textContent.trim();
-  if (!text || text.includes('Fill in the sections')) {
-    forgeShowToast(2200, 'Build a prompt before exporting.');
-    return;
-  }
-  forgeDownloadText(`forge-fashion-prompt-${new Date().toISOString().slice(0, 10)}.txt`, text);
-  forgeShowToast(2200, 'Prompt exported as .txt');
+  forgeExportPrompt(() => {
+    const text = document.getElementById('promptOutput').textContent.trim();
+    return text && !text.includes('Fill in the sections') ? text : '';
+  }, 'forge-fashion-prompt');
 }
 
 function showLayoutGrid() {
-  const list = document.getElementById('sectionList');
-  if (list) list.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  forgeShowToast(1800, 'Jumped to your section grid.');
+  forgeShowLayoutGrid('sectionList');
 }
 
 function openSettings() {
-  const search = document.getElementById('searchInput');
-  if (search) search.focus();
-  forgeShowToast(2200, 'Focused settings/search controls.');
+  forgeOpenSettings('searchInput');
 }
 
 function resetAll() {

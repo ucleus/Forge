@@ -122,17 +122,22 @@ The word stat now always reflects the actual generated prompt text, including th
 
 ## Architecture Issues
 
-### ARCH-01 — Three different CSS architectures across four files
-`index.html` links to `assets/css/styles.css`. `midjourney.html` links to the same stylesheet but adds a `<style>` block for extras. `cinematic.html` and `_index.html` embed all CSS inline (30k+ tokens each). Styles have already diverged — the Cinematic dark theme redefines variables that conflict with the shared stylesheet. Any global style change requires editing 3 separate places.
+### ARCH-01 — Three different CSS architectures across modules
+`index.html` and `midjourney.html` already use shared CSS files. `cinematic.html` was previously styled separately and is now being aligned by loading shared + module CSS assets. Styles still diverge in several component blocks, so global changes can require touching multiple files.
+
+**Status:** In progress (April 15, 2026)
 
 **Plan:** Consolidate into `assets/css/styles.css` (shared tokens + layout), `assets/css/cinematic.css` (dark theme overrides), `assets/css/midjourney.css` (module extras).
+`cinematic.html` is now wired to load shared + module CSS files directly.
 
 ---
 
 ### ARCH-02 — `_index.html` is an orphaned draft
 `_index.html` is a self-contained copy of the Fashion Builder with all CSS inlined. It is not linked from anywhere and appears to be an earlier version. It will cause confusion as the codebase grows.
 
-**Plan:** Delete or archive `_index.html` once it's confirmed no content is missing from `index.html`.
+**Status:** Fixed (April 15, 2026)
+
+**Resolution:** `_index.html` has already been removed from the tracked project files.
 
 ---
 
@@ -169,8 +174,8 @@ Midjourney and Cinematic each embed their full script inline. Utility functions 
 | BUG-08 | Nav buttons are stubs | ✅ Fixed | Small |
 | BUG-09 | Missing `aria-label` on icon buttons | ✅ Fixed | Small |
 | BUG-10 | Inaccurate word count at empty state | ✅ Fixed | Trivial |
-| ARCH-01 | Three CSS architectures | High | Medium |
-| ARCH-02 | Orphaned `_index.html` | Medium | Trivial |
+| ARCH-01 | Three CSS architectures | In progress | Medium |
+| ARCH-02 | Orphaned `_index.html` | ✅ Fixed | Trivial |
 | ARCH-03 | No shared JS across modules | High | Large |
 
 ---
@@ -183,7 +188,9 @@ Midjourney and Cinematic each embed their full script inline. Utility functions 
 3. ✅ Add accessibility labels to previous/next icon buttons across builders.
 4. ✅ Correct prompt word count stat to reflect real generated text.
 5. ✅ Add working handlers for nav action controls in Fashion and Midjourney.
-6. ⏭️ Next: resolve architecture issues ARCH-01 to ARCH-03 in phased refactors.
+6. ✅ Wire Cinematic page to shared/module CSS assets.
+7. ✅ Confirm orphan `_index.html` is removed from tracked project files.
+8. ⏭️ Next: continue ARCH-01 and expand shared utility extraction for ARCH-03.
 
 ## SaaS Conversion Plan
 
