@@ -339,9 +339,11 @@ let panelFilter = 'all';
 
 // ═══════════════════ INIT ═══════════════════
 function init() {
+  if (!state.mjVersion) state.mjVersion = '--v 7';
   renderProgressDots();
   renderList();
   showSection(0);
+  refresh();
 }
 
 // ═══════════════════ PROGRESS DOTS ═══════════════════
@@ -719,7 +721,7 @@ function openSettings() {
 
 // ═══════════════════ RESET ═══════════════════
 function resetAll() {
-  state = {};
+  state = { mjVersion: '--v 7' };
   activeChips.clear();
   document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
   showSection(0);
