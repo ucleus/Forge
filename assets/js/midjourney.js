@@ -54,9 +54,9 @@ const DATA = [
                "2:3 — Photo Portrait","21:9 — Ultra Wide Cinematic","7:4 — Wide"]
       },
       { id: "mjVersion", label: "MJ Version / Model", type: "select",
-        opts: ["","--v 6.1","--v 6","--v 5.2","--niji 6","--niji 5"],
-        lbls: ["— select —","--v 6.1 — Latest (Recommended)","--v 6 — Standard",
-               "--v 5.2 — Stylized","--niji 6 — Anime (Recommended)","--niji 5 — Anime Classic"],
+        opts: ["","--v 7","--v 6.1","--v 6","--niji 6","--niji 5"],
+        lbls: ["— select —","--v 7 — Latest (Recommended)","--v 6.1 — Stable",
+               "--v 6 — Standard","--niji 6 — Anime (Recommended)","--niji 5 — Anime Classic"],
         hint: "Use --niji 6 for anime & illustration styles"
       }
     ]
@@ -228,12 +228,35 @@ const DATA = [
   },
   {
     key: "advanced",
-    label: "Negative & Advanced",
+    label: "References & Advanced",
     iconKey: "advanced",
     ref: "SECTION — 06",
-    desc: "Exclusions, seed & extras",
-    hint: `<strong>--no</strong> removes unwanted elements (e.g. <em>blur, watermark, text, extra fingers, ugly</em>). <strong>--seed</strong> lets you reproduce the exact same result. <strong>--iw</strong> controls how strongly an uploaded reference image influences the output — paste the image URL before the subject text.`,
+    desc: "Image refs, style refs, exclusions",
+    hint: `<strong>Image Prompt URLs</strong> go at the beginning of your prompt text. <strong>--sref</strong> applies style references (URL/code/random). <strong>--oref</strong> is Omni Reference (replaces character reference in V7). <strong>--no</strong> excludes unwanted traits.`,
     fields: [
+      { id: "imagePromptUrls", label: "Image Prompt URLs (one per line)", type: "textarea",
+        placeholder: "https://...image1.jpg\nhttps://...image2.png" },
+      { id: "styleRef", label: "Style Reference  —  --sref", type: "text",
+        placeholder: "e.g. random, 123456789, or image URL" },
+      { id: "styleWeight", label: "Style Weight  —  --sw", type: "select",
+        opts: ["","25","50","100","200","400","600","1000"],
+        lbls: ["Default","--sw 25 — Very subtle","--sw 50 — Subtle","--sw 100 — Standard",
+               "--sw 200 — Strong","--sw 400 — Very strong","--sw 600 — Heavy","--sw 1000 — Maximum"]
+      },
+      { id: "styleVersion", label: "Style Version  —  --sv", type: "select",
+        opts: ["","4","5","6"],
+        lbls: ["Default","--sv 4","--sv 5","--sv 6"]
+      },
+      { id: "omniRef", label: "Omni Reference URL  —  --oref", type: "text",
+        placeholder: "https://...reference-image.jpg" },
+      { id: "omniWeight", label: "Omni Weight  —  --ow", type: "select",
+        opts: ["","25","50","100","200","400","800","1000"],
+        lbls: ["Default","--ow 25 — Light form lock","--ow 50 — Moderate",
+               "--ow 100 — Standard","--ow 200 — Strong","--ow 400 — Very strong",
+               "--ow 800 — Heavy","--ow 1000 — Maximum"]
+      },
+      { id: "profileCode", label: "Personalization Profile  —  --p", type: "text",
+        placeholder: "e.g. abc123xyz" },
       { id: "negativePrompt", label: "Exclude with --no", type: "textarea",
         placeholder: "e.g. blur, watermark, text, extra limbs, deformed hands, ugly, low quality, grain, oversaturated…" },
       { id: "seedValue", label: "Seed  —  --seed", type: "select",
@@ -246,17 +269,17 @@ const DATA = [
                "--iw 1 — Balanced influence","--iw 1.5 — Strong influence",
                "--iw 2 — Very strong influence","--iw 3 — Dominant reference"]
       },
-      { id: "styleMode", label: "Style Mode", type: "select",
-        opts: ["","--style raw","--personalize","--style cute",
-               "--style expressive","--style scenic","--style original"],
-        lbls: ["Default MJ aesthetic","--style raw — No MJ aesthetic filter",
-               "--personalize — Your personal style","--style cute — Niji cute",
-               "--style expressive — Niji expressive","--style scenic — Niji scenic",
-               "--style original — Niji v5 original"]
+      { id: "rawMode", label: "Raw Mode", type: "select",
+        opts: ["","--raw"],
+        lbls: ["Default MJ style","--raw — Reduced stylistic bias"]
       },
-      { id: "characterRef", label: "Character Ref  —  --cref", type: "select",
-        opts: ["","--cref [paste URL above]"],
-        lbls: ["None","--cref — Use character reference URL (paste URL in subject)"]
+      { id: "draftMode", label: "Draft Mode (V7)", type: "select",
+        opts: ["","--draft"],
+        lbls: ["Off","--draft — Faster, half-cost drafts"]
+      },
+      { id: "repeatCount", label: "Repeat  —  --repeat", type: "select",
+        opts: ["","2","3","4"],
+        lbls: ["Single run (default)","--repeat 2","--repeat 3","--repeat 4"]
       }
     ]
   }
@@ -265,32 +288,32 @@ const DATA = [
 // ═══════════════════ QUICK PRESETS ═══════════════════
 const PRESETS = {
   realistic: {
-    outputType:"Realistic Photo", aspectRatio:"3:2", mjVersion:"--v 6.1",
+    outputType:"Realistic Photo", aspectRatio:"3:2", mjVersion:"--v 7",
     renderQuality:"8K ultra detailed", lightingType:"natural soft window light",
     lensStyle:"85mm portrait lens", cameraAngle:"eye level neutral",
     composition:"rule of thirds balanced", quality:"1", stylize:"500",
     filmTexture:"film grain 35mm analog"
   },
   headshot: {
-    outputType:"Profile / Headshot", aspectRatio:"1:1", mjVersion:"--v 6.1",
+    outputType:"Profile / Headshot", aspectRatio:"1:1", mjVersion:"--v 7",
     lightingType:"beauty ring light", lensStyle:"85mm portrait lens",
     cameraAngle:"eye level neutral", renderQuality:"hyperrealistic extreme detail",
     composition:"perfectly centered symmetric", quality:"1", stylize:"250"
   },
   fashion: {
-    outputType:"Fashion / Model Shoot", aspectRatio:"2:3", mjVersion:"--v 6.1",
+    outputType:"Fashion / Model Shoot", aspectRatio:"2:3", mjVersion:"--v 7",
     lightingType:"butterfly glamour lighting", lensStyle:"full body portrait",
     colorPalette:"vibrant highly saturated", renderQuality:"cinematic production quality",
     cameraAngle:"three-quarter dynamic", quality:"1", stylize:"500"
   },
   pixar: {
-    outputType:"3D Animation — Pixar Style", aspectRatio:"16:9", mjVersion:"--v 6.1",
+    outputType:"3D Animation — Pixar Style", aspectRatio:"16:9", mjVersion:"--v 7",
     colorPalette:"vibrant highly saturated", lightingType:"studio three-point lighting",
     renderQuality:"cinematic production quality", quality:"1", stylize:"750",
     timeOfDay:"golden hour sunset"
   },
   cartoon: {
-    outputType:"2D Cartoon", aspectRatio:"1:1", mjVersion:"--v 6.1",
+    outputType:"2D Cartoon", aspectRatio:"1:1", mjVersion:"--v 7",
     colorPalette:"vibrant highly saturated", renderQuality:"professional illustration quality",
     artMovement:"Pop Art bold flat", stylize:"750"
   },
@@ -301,7 +324,7 @@ const PRESETS = {
     timeOfDay:"magic twilight hour"
   },
   concept: {
-    outputType:"Concept Art", aspectRatio:"16:9", mjVersion:"--v 6.1",
+    outputType:"Concept Art", aspectRatio:"16:9", mjVersion:"--v 7",
     renderQuality:"award-winning photography", artMovement:"Cyberpunk dark neon",
     colorPalette:"electric neon colors", lightingType:"neon colored accent lights",
     lensStyle:"wide establishing shot", stylize:"750", quality:"1"
@@ -420,6 +443,10 @@ function renderBody(s) {
       html += `<textarea class="field-textarea" id="fld_${f.id}"
         placeholder="${f.placeholder || ''}"
         oninput="onText('${f.id}', this.value)">${val}</textarea>`;
+    } else if (f.type === 'text') {
+      html += `<input class="field-input" id="fld_${f.id}"
+        placeholder="${f.placeholder || ''}" value="${val}"
+        oninput="onText('${f.id}', this.value)">`;
     }
 
     html += `</div>`;
@@ -494,13 +521,13 @@ function updateStats() {
   document.getElementById('stat-subject').textContent =
     (subj + env) > 0 ? `${subj + env}/2 set` : '—';
 
-  const paramFields = ['stylize','quality','chaos','weird'];
+  const paramFields = ['stylize','quality','chaos','weird','styleRef','omniRef','rawMode','draftMode','repeatCount'];
   const fp = paramFields.filter(f => state[f] && state[f] !== '').length;
-  document.getElementById('stat-params').textContent = fp > 0 ? `${fp}/4 set` : '—';
+  document.getElementById('stat-params').textContent = fp > 0 ? `${fp}/${paramFields.length} set` : '—';
 
   setProg('prog-mode',    state['outputType'] ? 100 : 0);
   setProg('prog-subject', subj ? 100 : env ? 50 : 0);
-  setProg('prog-params',  (fp / 4) * 100);
+  setProg('prog-params',  Math.min(100, (fp / paramFields.length) * 100));
 }
 
 function setProg(id, pct) {
@@ -554,6 +581,14 @@ function buildPrompt() {
   const comp = state['composition'];
   if (comp) parts.push(comp);
 
+  const imagePromptUrls = (state['imagePromptUrls'] || '')
+    .split(/\n+/)
+    .map(v => v.trim())
+    .filter(Boolean);
+  if (imagePromptUrls.length) {
+    parts.unshift(imagePromptUrls.join(' '));
+  }
+
   const ar = state['aspectRatio'];
   if (ar) params.push(`--ar ${ar}`);
 
@@ -581,11 +616,32 @@ function buildPrompt() {
   const iw = state['imageWeight'];
   if (iw) params.push(iw);
 
-  const sm = state['styleMode'];
-  if (sm) params.push(sm);
+  const sref = (state['styleRef'] || '').trim();
+  if (sref) params.push(`--sref ${sref}`);
 
-  const cr = state['characterRef'];
-  if (cr && cr !== '--cref [paste URL above]') params.push(cr);
+  const sw = state['styleWeight'];
+  if (sw) params.push(`--sw ${sw}`);
+
+  const sv = state['styleVersion'];
+  if (sv) params.push(`--sv ${sv}`);
+
+  const oref = (state['omniRef'] || '').trim();
+  if (oref) params.push(`--oref ${oref}`);
+
+  const ow = state['omniWeight'];
+  if (ow) params.push(`--ow ${ow}`);
+
+  const profile = (state['profileCode'] || '').trim();
+  if (profile) params.push(`--p ${profile.replace(/^--p\s+/i, '')}`);
+
+  const raw = state['rawMode'];
+  if (raw) params.push(raw);
+
+  const draft = state['draftMode'];
+  if (draft) params.push(draft);
+
+  const repeat = state['repeatCount'];
+  if (repeat) params.push(`--repeat ${repeat}`);
 
   const neg = (state['negativePrompt'] || '').trim();
   if (neg) params.push(`--no ${neg}`);
@@ -617,6 +673,13 @@ function updatePrompt() {
     if (state['quality'])     pv.push(`--q ${state['quality']}`);
     if (state['chaos'] && state['chaos'] !== '0') pv.push(`--c ${state['chaos']}`);
     if (state['weird'])       pv.push(`--w ${state['weird']}`);
+    if (state['styleRef'])    pv.push(`--sref ${state['styleRef']}`);
+    if (state['styleWeight']) pv.push(`--sw ${state['styleWeight']}`);
+    if (state['styleVersion']) pv.push(`--sv ${state['styleVersion']}`);
+    if (state['omniRef'])     pv.push(`--oref ${state['omniRef']}`);
+    if (state['omniWeight'])  pv.push(`--ow ${state['omniWeight']}`);
+    if (state['rawMode'])     pv.push(state['rawMode']);
+    if (state['draftMode'])   pv.push(state['draftMode']);
     chips.innerHTML = pv.map(p => `<span class="param-chip">${p}</span>`).join('');
   } else {
     output.innerHTML = '<span class="prompt-placeholder">Fill in sections — your Midjourney prompt builds here in real time…</span>';
