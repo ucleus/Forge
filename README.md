@@ -6,7 +6,7 @@ A client-side prompt builder for AI image and video generation tools. No backend
 
 ## Modules
 
-### Fashion Builder (`index.html`)
+### Fashion Builder (`index.php`)
 
 Builds apparel mockup prompts for AI image generators (Midjourney, DALL-E, Stable Diffusion, Firefly). Structured around 5 sections that assemble into a single production-ready prompt.
 
@@ -39,7 +39,7 @@ Two dropdowns — Garment Type and Style Direction — let you pre-set key field
 
 ---
 
-### Midjourney Builder (`midjourney.html`)
+### Midjourney Builder (`midjourney.php`)
 
 Builds `/imagine` prompts optimized for Midjourney's syntax, including parameter flags (`--ar`, `--v`, `--style`, `--chaos`, etc.).
 
@@ -78,7 +78,7 @@ The bar above the prompt output shows all active `--flag value` pairs at a glanc
 
 ---
 
-### Cinematic Builder (`cinematic.html`)
+### Cinematic Builder (`cinematic.php`)
 
 Builds prompts for AI video generation platforms. Supports platform-specific formatting with a dark cinema-themed UI.
 
@@ -125,15 +125,24 @@ Example output (Fashion):
 
 ```
 Forge/
-├── index.html          — Fashion Builder
-├── midjourney.html     — Midjourney Builder
-├── cinematic.html      — Cinematic Builder
-├── _index.html         — Draft / reference version of Fashion Builder
+├── index.php           — Fashion Builder
+├── midjourney.php      — Midjourney Builder
+├── cinematic.php       — Cinematic Builder
+├── dalle.php           — Dall-e landing page
+├── nanobanana.php      — Nano Banana landing page
+├── characters.php      — Characters landing page
 ├── assets/
 │   ├── css/
-│   │   └── styles.css  — Shared styles (Fashion + Midjourney)
+│   │   ├── styles.css      — Shared base styles
+│   │   ├── midjourney.css  — Midjourney-specific styles
+│   │   └── cinematic.css   — Cinematic-specific dark theme overrides
 │   └── js/
-│       └── script.js   — Fashion Builder logic + data
+│       ├── core.js         — Shared utilities and nav helpers
+│       ├── script.js       — Fashion Builder logic + data
+│       ├── midjourney.js   — Midjourney Builder logic + data
+│       └── cinematic.js    — Cinematic Builder logic + data
+├── scripts/
+│   └── regression-smoke.sh — Cross-module smoke checks
 └── .gitignore
 ```
 
