@@ -161,6 +161,7 @@ const selectedAccessories = new Set();
 const selectedJewelry = new Set();
 let currentSection = 'garment';
 const SECTION_KEYS = Object.keys(DATA);
+let panelFilter = 'all';
  
 // ═══════════════════ COMPLETION ═══════════════════
 function getSectionCompletion(key) {
@@ -335,14 +336,30 @@ function syncFilter(fieldId, value) {
 }
  
 function handleSearch(q) {
+  const needle = (q || '').toLowerCase();
   document.querySelectorAll('.placement-chip, .m-chip').forEach(el => {
-    el.style.display = (!q || el.textContent.toLowerCase().includes(q.toLowerCase())) ? '' : 'none';
+    const matches = !needle || el.textContent.toLowerCase().includes(needle);
+    el.style.display = matches ? '' : 'none';
   });
   document.querySelectorAll('.field-select option').forEach(el => {
-    el.style.display = (!q || el.value === '' || el.textContent.toLowerCase().includes(q.toLowerCase())) ? '' : 'none';
+    const matches = !needle || el.value === '' || el.textContent.toLowerCase().includes(needle);
+    // Safari/iOS do not reliably respect option display:none.
+    el.disabled = !matches;
+    if (matches) {
+      el.removeAttribute('hidden');
+    } else {
+      el.setAttribute('hidden', 'hidden');
+    }
   });
 }
  
+function setFilter(mode, btn) {
+  panelFilter = mode === 'done' ? 'done' : 'all';
+  document.querySelectorAll('.panel-tab').forEach(tab => tab.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  updateSidebar();
+}
+
 // ═══════════════════ SIDEBAR ONLY (no form re-render) ═══════════════════
 function updateSidebar() {
   let done = 0;
@@ -357,10 +374,13 @@ function updateSidebar() {
     if (el) {
       el.className = `section-item${isActive ? ' active' : ''}${isDone ? ' done' : ''}`;
       el.querySelector('.section-badge').innerHTML = badge;
+      const shouldShow = panelFilter === 'all' || isDone;
+      el.style.display = shouldShow ? '' : 'none';
     }
   });
   document.getElementById('doneCount').textContent = done;
 }
+
  
 // ═══════════════════ PROMPT BUILD ═══════════════════
 function buildPrompt() {
@@ -445,7 +465,7 @@ function buildPrompt() {
   }
  
   const wc = prompt.trim().split(/\s+/).filter(Boolean).length;
-  document.getElementById('stat-words').textContent = hasMeat ? `${wc} words` : '0 words';
+  document.getElementById('stat-words').textContent = `${wc} words`;
   const badge = document.getElementById('stat-badge');
   const filledCount = Object.values(state).filter(v => v && String(v).trim()).length;
   badge.textContent = filledCount >= 6 ? 'Ready' : 'Draft';
@@ -504,7 +524,7 @@ function copyPrompt() {
   if (!text || text.includes('Fill in the sections')) return;
   forgeCopy(text, () => forgeShowToast(2200));
 }
- 
+
 function resetAll() {
   Object.keys(state).forEach(k => delete state[k]);
   selectedPlacements.clear(); selectedAccessories.clear(); selectedJewelry.clear();
@@ -540,6 +560,7 @@ function renderSectionList() {
     </div>`;
   }).join('');
   document.getElementById('doneCount').textContent = done;
+  updateSidebar();
 }
  
 // ═══════════════════ LOCAL STORAGE PERSISTENCE ═══════════════════
