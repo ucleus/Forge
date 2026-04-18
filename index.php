@@ -17,16 +17,16 @@
     FORGE
   </div>
   <div class="nav-tabs">
-    <a class="nav-tab" href="midjourney.html" style="text-decoration:none">Midjourney</a>
+    <a class="nav-tab" href="dalle.php" style="text-decoration:none">Dall-e</a>
+    <a class="nav-tab" href="midjourney.php" style="text-decoration:none">Midjourney</a>
+    <a class="nav-tab" href="nanobanana.php" style="text-decoration:none">Nano Banana</a>
     <button class="nav-tab active">Fashion</button>
-    <a class="nav-tab" href="cinematic.html" style="text-decoration:none">Cinematic</a>
-    <button class="nav-tab">Collections</button>
-    <button class="nav-tab">Export</button>
+    <a class="nav-tab" href="characters.php" style="text-decoration:none">Characters</a>
   </div>
   <div class="nav-actions">
-    <button class="nav-icon-btn" title="Grid">⊞</button>
-    <button class="nav-icon-btn" title="Settings">⚙</button>
-    <button class="btn-create">+ New Prompt</button>
+    <button class="nav-icon-btn" title="Grid" aria-label="Jump to section grid" onclick="forgeShowLayoutGrid()">⊞</button>
+    <button class="nav-icon-btn" title="Settings" aria-label="Focus settings controls" onclick="forgeOpenSettings()">⚙</button>
+    <button class="btn-create" onclick="forgeStartNewPrompt(resetAll)">+ New Prompt</button>
   </div>
 </nav>
 
@@ -92,8 +92,8 @@
   <!-- LEFT: Section List -->
   <div class="left-panel">
     <div class="panel-tabs">
-      <button class="panel-tab active">All <span class="panel-tab-count">5</span></button>
-      <button class="panel-tab">Done <span class="panel-tab-count" id="doneCount">0</span></button>
+      <button class="panel-tab active" onclick="setFilter('all',this)">All <span class="panel-tab-count">5</span></button>
+      <button class="panel-tab" onclick="setFilter('done',this)">Done <span class="panel-tab-count" id="doneCount">0</span></button>
     </div>
     <div class="section-list" id="sectionList"></div>
   </div>
@@ -109,8 +109,8 @@
         </div>
       </div>
       <div class="detail-actions">
-        <button class="icon-btn" onclick="prevSection()" title="Previous">←</button>
-        <button class="icon-btn" onclick="nextSection()" title="Next">→</button>
+        <button class="icon-btn" onclick="prevSection()" title="Previous" aria-label="Previous section">←</button>
+        <button class="icon-btn" onclick="nextSection()" title="Next" aria-label="Next section">→</button>
       </div>
     </div>
 

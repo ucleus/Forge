@@ -6,21 +6,23 @@
 <title>Mockup Forge — Cinematic</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Syne:wght@700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/styles.css" type="text/css" media="all" />
+<link rel="stylesheet" href="assets/css/cinematic.css" type="text/css" media="all" />
 </head>
 <body>
 
 <!-- TOP NAV -->
 <nav class="topnav">
-  <a class="nav-brand" href="prompt-builder.html">
+  <a class="nav-brand" href="index.php">
     <div class="brand-dot">✦</div>
     FORGE
   </a>
   <div class="nav-tabs">
-    <a class="nav-tab" href="midjourney.html">Midjourney</a>
-    <a class="nav-tab" href="index.html">Fashion</a>
-    <button class="nav-tab active">Cinematic</button>
-    <a class="nav-tab" href="#">Collections</a>
-    <a class="nav-tab" href="#">Export</a>
+    <a class="nav-tab" href="dalle.php">Dall-e</a>
+    <a class="nav-tab" href="midjourney.php">Midjourney</a>
+    <a class="nav-tab" href="nanobanana.php">Nano Banana</a>
+    <a class="nav-tab" href="index.php">Fashion</a>
+    <a class="nav-tab" href="characters.php">Characters</a>
   </div>
   <div class="nav-actions">
     <button class="nav-icon-btn" id="btnFullPrompt" title="View all shots">
