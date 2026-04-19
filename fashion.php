@@ -11,6 +11,7 @@ include 'partials/header.php';
 <!-- ── PAGE HEADER ── -->
 <div class="page-header">
   <h1 class="page-title">Fashion Builder</h1>
+  <p class="page-sub">Create fashion prompts with garment, model, styling, and production-ready details.</p>
   <div style="display:flex;align-items:center;gap:8px">
     <div class="progress-dots" id="progressDots"></div>
     <span class="prog-label" id="progressLabel">0 / 5 sections</span>

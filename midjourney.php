@@ -12,6 +12,7 @@ include 'partials/header.php';
 <!-- ── PAGE HEADER ── -->
 <div class="page-header">
   <h1 class="page-title">Midjourney Builder</h1>
+  <p class="page-sub">Design Midjourney prompts with targeted scene description, style direction, and MJ-specific flags.</p>
   <div style="display:flex;align-items:center;gap:8px">
     <div class="progress-dots" id="progressDots"></div>
     <span class="prog-label" id="progressLabel">0 / 6 sections</span>

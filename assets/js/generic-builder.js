@@ -54,7 +54,9 @@ function updateStatCards(sections) {
     const el = document.getElementById(elementId);
     if (!el) return;
     const values = sections.get(group) || [];
-    const text = values.length ? values[0].split(':').slice(1).join(':').trim() : '—';
+    const text = values.length
+      ? values.map(v => v.split(':').slice(1).join(':').trim()).filter(Boolean).join(', ')
+      : '—';
     el.textContent = text || '—';
   });
 

@@ -78,6 +78,10 @@ include 'partials/header.php';
               <option>warm golden hues</option>
             </select>
           </div>
+          <div class="field-group">
+            <label class="field-label">Action / Effects</label>
+            <input class="field-input prompt-field" data-prompt-group="effects" data-prompt-label="Effects" id="banana-effects" placeholder="sparkles, motion blur, floating elements" />
+          </div>
           <div class="field-group" style="grid-column:1/-1">
             <label class="field-label">Creative Notes</label>
             <textarea class="field-textarea prompt-field" data-prompt-group="notes" data-prompt-label="Notes" id="banana-notes" placeholder="Add any extra details, motion, or focal interest..."></textarea>

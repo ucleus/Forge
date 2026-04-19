@@ -77,6 +77,10 @@ include 'partials/header.php';
             </select>
           </div>
           <div class="field-group">
+            <label class="field-label">Character Goal / Conflict</label>
+            <input class="field-input prompt-field" data-prompt-group="goal" data-prompt-label="Goal" id="char-goal" placeholder="wants to escape the city" />
+          </div>
+          <div class="field-group">
             <label class="field-label">Setting</label>
             <input class="field-input prompt-field" data-prompt-group="setting" data-prompt-label="Setting" id="char-setting" placeholder="in a misty forest clearing" />
           </div>
