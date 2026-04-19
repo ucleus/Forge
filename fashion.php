@@ -1,6 +1,15 @@
 <?php
-header('Location: fashion.php');
-exit;
+$pageTitle = 'Forge — Fashion Builder';
+$pageId = 'fashion';
+$pageStyles = [];
+$pageScripts = ['assets/js/script.js'];
+$newPromptAction = 'forgeStartNewPrompt(resetAll)';
+$newPromptLabel = '+ New Prompt';
+include 'partials/header.php';
+?>
+
+<!-- ── PAGE HEADER ── -->
+<div class="page-header">
   <h1 class="page-title">Fashion Builder</h1>
   <div style="display:flex;align-items:center;gap:8px">
     <div class="progress-dots" id="progressDots"></div>

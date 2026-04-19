@@ -21,9 +21,11 @@ if (!isset($newPromptLabel)) {
   $newPromptLabel = '+ New Prompt';
 }
 $navItems = [
+  'dalle.php' => 'Dall-e',
   'midjourney.php' => 'Midjourney',
-  'index.php' => 'Fashion',
-  'cinematic.php' => 'Cinematic'
+  'nanobanana.php' => 'Nano Banana',
+  'fashion.php' => 'Fashion',
+  'characters.php' => 'Characters'
 ];
 ?>
 <!DOCTYPE html>
