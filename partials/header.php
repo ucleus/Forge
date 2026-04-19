@@ -49,8 +49,6 @@ $navItems = [
     <?php foreach ($navItems as $href => $label): ?>
       <a class="nav-tab <?php echo ($pageId === pathinfo($href, PATHINFO_FILENAME) ? 'active' : ''); ?>" href="<?php echo $href; ?>"><?php echo htmlspecialchars($label, ENT_QUOTES, 'UTF-8'); ?></a>
     <?php endforeach; ?>
-    <button class="nav-tab" onclick="forgeOpenCollections()">Collections</button>
-    <button class="nav-tab" onclick="<?php echo $exportAction; ?>">Export</button>
   </div>
   <div class="nav-actions">
     <button class="nav-icon-btn" title="Grid" aria-label="Jump to section grid" onclick="forgeShowLayoutGrid()">⊞</button>
