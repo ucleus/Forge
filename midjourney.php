@@ -1,35 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Forge — Midjourney Builder</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Syne:wght@700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/styles.css" type="text/css" media="all" />
-<link rel="stylesheet" href="assets/css/midjourney.css" type="text/css" media="all" />
-</head>
-<body>
-
-<!-- ── TOP NAV ── -->
-<nav class="topnav">
-  <div class="nav-brand">
-    <div class="brand-dot">✦</div>
-    FORGE
-  </div>
-  <div class="nav-tabs">
-    <a class="nav-tab active" href="midjourney.html" style="text-decoration:none">Midjourney</a>
-    <a class="nav-tab" href="index.html" style="text-decoration:none">Fashion</a>
-    <a class="nav-tab" href="cinematic.html" style="text-decoration:none">Cinematic</a>
-    <button class="nav-tab" onclick="forgeOpenCollections()">Collections</button>
-    <button class="nav-tab" onclick="forgeExportPrompt(buildPrompt, 'forge-midjourney-prompt')">Export</button>
-  </div>
-  <div class="nav-actions">
-    <button class="nav-icon-btn" title="Grid" aria-label="Jump to section grid" onclick="forgeShowLayoutGrid()">⊞</button>
-    <button class="nav-icon-btn" title="Settings" aria-label="Focus settings controls" onclick="forgeOpenSettings()">⚙</button>
-    <button class="btn-create" onclick="forgeStartNewPrompt(resetAll)">↺ Reset</button>
-  </div>
-</nav>
+<?php
+$pageTitle = 'Forge — Midjourney Builder';
+$pageId = 'midjourney';
+$pageStyles = ['assets/css/midjourney.css'];
+$pageScripts = ['assets/js/midjourney.js'];
+$exportAction = "forgeExportPrompt(buildPrompt, 'forge-midjourney-prompt');";
+$newPromptAction = 'forgeStartNewPrompt(resetAll)';
+$newPromptLabel = '+ Reset';
+include 'partials/header.php';
+?>
 
 <!-- ── PAGE HEADER ── -->
 <div class="page-header">
@@ -133,9 +111,4 @@
 
 </div>
 
-<div class="toast" id="toast"><span class="t-lime">✓</span> Copied — ready to paste in Midjourney!</div>
-
-<script src="assets/js/core.js"></script>
-<script src="assets/js/midjourney.js"></script>
-</body>
-</html>
+<?php include 'partials/footer.php'; ?>

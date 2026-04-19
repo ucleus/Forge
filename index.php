@@ -1,34 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Forge — Prompt Builder</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Syne:wght@700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/styles.css" type="text/css" media="all" />
-</head>
-<body>
-
-<!-- ── TOP NAV ── -->
-<nav class="topnav">
-  <div class="nav-brand">
-    <div class="brand-dot">✦</div>
-    FORGE
-  </div>
-  <div class="nav-tabs">
-    <a class="nav-tab" href="midjourney.html" style="text-decoration:none">Midjourney</a>
-    <button class="nav-tab active">Fashion</button>
-    <a class="nav-tab" href="cinematic.html" style="text-decoration:none">Cinematic</a>
-    <button class="nav-tab" onclick="forgeOpenCollections()">Collections</button>
-    <button class="nav-tab" onclick="forgeExportFromPromptOutput('promptOutput','Fill in the sections','forge-fashion-prompt')">Export</button>
-  </div>
-  <div class="nav-actions">
-    <button class="nav-icon-btn" title="Grid" aria-label="Jump to section grid" onclick="forgeShowLayoutGrid()">⊞</button>
-    <button class="nav-icon-btn" title="Settings" aria-label="Focus settings controls" onclick="forgeOpenSettings()">⚙</button>
-    <button class="btn-create" onclick="forgeStartNewPrompt(resetAll)">+ New Prompt</button>
-  </div>
-</nav>
+<?php
+$pageTitle = 'Forge — Prompt Builder';
+$pageId = 'fashion';
+$pageStyles = [];
+$pageScripts = ['assets/js/script.js'];
+$exportAction = "forgeExportFromPromptOutput('promptOutput','Fill in the sections','forge-fashion-prompt');";
+$newPromptAction = 'forgeStartNewPrompt(resetAll)';
+$newPromptLabel = '+ New Prompt';
+include 'partials/header.php';
+?>
 
 <!-- ── PAGE HEADER ── -->
 <div class="page-header">
@@ -131,10 +110,4 @@
 
 </div>
 
-<div class="toast" id="toast"><span class="t-lime">✓</span> Copied to clipboard!</div>
-
-<!-- ══════════════════════════════════════════════ -->
-<script src="assets/js/core.js"></script>
-<script src="assets/js/script.js" type="text/javascript" charset="utf-8"></script>
-</body>
-</html>
+<?php include 'partials/footer.php'; ?>
